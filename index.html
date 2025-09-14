@@ -1,46 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Alumni Connect Platform</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+    /* Dark Mode Styles */
     body.dark-mode {
-  background-color: #121212;
-  color: #f5f5f5;
-}
+      background-color: #121212;
+      color: #e0e0e0;
+    }
 
-body.dark-mode a {
-  color: #9ad1ff;
-}
+    body.dark-mode a {
+      color: #9ad1ff;
+    }
 
-body.dark-mode .navbar {
-  background-color: #1f1f1f !important;
-}
+    body.dark-mode .navbar {
+      background-color: #1f1f1f !important;
+    }
+
+    body.dark-mode input,
+    body.dark-mode textarea {
+      background-color: #1f1f1f;
+      color: #e0e0e0;
+      border-color: #333;
+    }
+
+    body.dark-mode .bg-white {
+      background-color: #1f1f1f !important;
+    }
+
+    /* Global smooth transitions */
+    * {
+      transition: all 0.3s ease;
+    }
+
+    /* Card hover effect */
+    .shadow:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Scroll animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
   </style>
 </head>
+
 <body class="bg-gray-50 text-gray-800 transition-colors duration-300">
 
   <!-- Navbar -->
-  <nav class="flex items-center justify-between p-4 bg-blue-600 text-white shadow-md">
-  <h1 class="text-2xl font-bold">Alumni Connect</h1>
-  <div class="space-x-6 hidden md:flex">
-    <a href="#home" class="hover:underline">Home</a>
-    <a href="#alumni" class="hover:underline">Alumni</a>
-    <a href="#directory" class="hover:underline">Directory</a>
-    <a href="#networking" class="hover:underline">Networking</a>
-    <a href="#events" class="hover:underline">Events</a>
-    <a href="#mentorship" class="hover:underline">Mentorship</a>
-    <a href="#donations" class="hover:underline">Donations</a>
-  </div>
-  <button id="darkModeToggle" class="px-4 py-2 bg-gray-900 rounded-lg hover:bg-gray-700 text-sm">
-    🌙 Dark Mode
-  </button>
-</nav>
+  <nav class="navbar flex items-center justify-between p-4 bg-blue-600 text-white shadow-md">
+    <h1 class="text-2xl font-bold">Alumni Connect</h1>
+    <div class="space-x-6 hidden md:flex">
+      <a href="#home" class="hover:underline">Home</a>
+      <a href="#alumni" class="hover:underline">Alumni</a>
+      <a href="#directory" class="hover:underline">Directory</a>
+      <a href="#networking" class="hover:underline">Networking</a>
+      <a href="#events" class="hover:underline">Events</a>
+      <a href="#mentorship" class="hover:underline">Mentorship</a>
+      <a href="#donations" class="hover:underline">Donations</a>
+    </div>
+    <button id="darkModeToggle" class="px-4 py-2 bg-gray-900 rounded-lg hover:bg-gray-700 text-sm">
+      🌙 Dark Mode
+    </button>
+  </nav>
 
   <!-- Hero Section -->
-  <section id="home" class="text-center py-16 bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
+  <section id="home" class="text-center py-16 bg-gradient-to-r from-blue-500 to-indigo-600 text-white fade-in">
     <h2 class="text-4xl font-bold mb-4">Stay Connected. Empower the Future.</h2>
     <p class="text-lg mb-6">Centralized alumni management with networking, mentorship, events, and career support.</p>
     <a href="#alumni" class="px-6 py-3 bg-white text-blue-700 font-semibold rounded-lg shadow hover:bg-gray-100">
@@ -49,37 +86,38 @@ body.dark-mode .navbar {
   </section>
 
   <!-- Alumni Registration -->
-  <section id="alumni" class="max-w-5xl mx-auto py-12 px-6">
+  <section id="alumni" class="max-w-5xl mx-auto py-12 px-6 fade-in">
     <h3 class="text-2xl font-bold mb-6 border-b pb-2">Alumni Registration & Profiles</h3>
     <form class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 rounded-xl shadow">
-      <input type="text" placeholder="Full Name" class="p-3 border rounded">
-      <input type="email" placeholder="Email (Mandatory)" class="p-3 border rounded">
-      <input type="text" placeholder="Batch" class="p-3 border rounded">
-      <input type="text" placeholder="Department" class="p-3 border rounded">
-      <input type="text" placeholder="Current Job Title" class="p-3 border rounded">
-      <input type="text" placeholder="Company" class="p-3 border rounded">
-      <input type="text" placeholder="Skills" class="p-3 border rounded">
-      <input type="file" class="p-3 border rounded" accept="image/*">
+      <input type="text" placeholder="Full Name" class="p-3 border rounded"/>
+      <input type="email" placeholder="Email (Mandatory)" class="p-3 border rounded"/>
+      <input type="text" placeholder="Batch" class="p-3 border rounded"/>
+      <input type="text" placeholder="Department" class="p-3 border rounded"/>
+      <input type="text" placeholder="Current Job Title" class="p-3 border rounded"/>
+      <input type="text" placeholder="Company" class="p-3 border rounded"/>
+      <input type="text" placeholder="Skills" class="p-3 border rounded"/>
+      <input type="file" class="p-3 border rounded" accept="image/*"/>
       <textarea placeholder="Bio" class="p-3 border rounded col-span-2"></textarea>
       <button class="col-span-2 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">Register</button>
     </form>
   </section>
 
   <!-- Alumni Directory -->
-  <section id="directory" class="bg-gray-100 py-12 px-6">
+  <section id="directory" class="bg-gray-100 py-12 px-6 fade-in">
     <div class="max-w-5xl mx-auto">
       <h3 class="text-2xl font-bold mb-6 border-b pb-2">Centralized Alumni Directory</h3>
-      <input type="text" placeholder="Search alumni by name, batch, department, company, location, job profile..."
-             class="w-full p-3 border rounded mb-6">
+      <input type="text"
+             placeholder="Search alumni by name, batch, department, company, location, job profile..."
+             class="w-full p-3 border rounded mb-6"/>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg">
-          <img src="https://via.placeholder.com/100" alt="profile" class="w-20 h-20 rounded-full mb-3">
+          <img src="https://via.placeholder.com/100" alt="profile" class="w-20 h-20 rounded-full mb-3"/>
           <h4 class="text-lg font-semibold">Jane Doe</h4>
           <p class="text-sm text-gray-500">Batch: 2015 | Dept: CSE</p>
           <p class="text-sm mt-2">Software Engineer @ Google</p>
         </div>
         <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg">
-          <img src="https://via.placeholder.com/100" alt="profile" class="w-20 h-20 rounded-full mb-3">
+          <img src="https://via.placeholder.com/100" alt="profile" class="w-20 h-20 rounded-full mb-3"/>
           <h4 class="text-lg font-semibold">John Smith</h4>
           <p class="text-sm text-gray-500">Batch: 2018 | Dept: ECE</p>
           <p class="text-sm mt-2">Product Manager @ Microsoft</p>
@@ -89,7 +127,7 @@ body.dark-mode .navbar {
   </section>
 
   <!-- Networking -->
-  <section id="networking" class="max-w-5xl mx-auto py-12 px-6">
+  <section id="networking" class="max-w-5xl mx-auto py-12 px-6 fade-in">
     <h3 class="text-2xl font-bold mb-6 border-b pb-2">Communication & Networking</h3>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div class="bg-white p-6 rounded-xl shadow">
@@ -111,7 +149,7 @@ body.dark-mode .navbar {
   </section>
 
   <!-- Events -->
-  <section id="events" class="bg-gray-100 py-12 px-6">
+  <section id="events" class="bg-gray-100 py-12 px-6 fade-in">
     <div class="max-w-5xl mx-auto">
       <h3 class="text-2xl font-bold mb-6 border-b pb-2">Events & Networking</h3>
       <button class="mb-6 bg-blue-600 text-white px-4 py-2 rounded">+ Create Event</button>
@@ -136,7 +174,7 @@ body.dark-mode .navbar {
   </section>
 
   <!-- Mentorship -->
-  <section id="mentorship" class="max-w-5xl mx-auto py-12 px-6">
+  <section id="mentorship" class="max-w-5xl mx-auto py-12 px-6 fade-in">
     <h3 class="text-2xl font-bold mb-6 border-b pb-2">Mentorship & Career Support</h3>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div class="bg-white p-6 rounded-xl shadow">
@@ -158,7 +196,7 @@ body.dark-mode .navbar {
   </section>
 
   <!-- Donations -->
-  <section id="donations" class="bg-gray-100 py-12 px-6">
+  <section id="donations" class="bg-gray-100 py-12 px-6 fade-in">
     <div class="max-w-5xl mx-auto">
       <h3 class="text-2xl font-bold mb-6 border-b pb-2">Fundraising & Donations</h3>
       <div class="bg-white p-6 rounded-xl shadow">
@@ -169,7 +207,7 @@ body.dark-mode .navbar {
   </section>
 
   <!-- Footer -->
-  <footer class="text-center py-6 bg-blue-600 text-white">
+  <footer class="text-center py-6 bg-blue-600 text-white fade-in">
     <p>&copy; 2025 Alumni Connect | Built with ❤️ for SIH</p>
   </footer>
 
@@ -179,12 +217,20 @@ body.dark-mode .navbar {
     const body = document.body;
     toggle.addEventListener('click', () => {
       body.classList.toggle('dark-mode');
-      if (body.classList.contains('dark-mode')) {
-        toggle.textContent = "☀️ Light Mode";
-      } else {
-        toggle.textContent = "🌙 Dark Mode";
-      }
+      toggle.textContent = body.classList.contains('dark-mode') ? "☀️ Light Mode" : "🌙 Dark Mode";
     });
+
+    // Scroll Animation Observer
+    const fadeElems = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.2 });
+
+    fadeElems.forEach(el => observer.observe(el));
   </script>
 </body>
 
