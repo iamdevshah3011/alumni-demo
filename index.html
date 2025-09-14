@@ -7,92 +7,68 @@
 
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
-    /* --- ✨ AESTHETIC OVERHAUL START ✨ --- */
-
-    /* 1. New Font & Animated Gradient Background */
     body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(-45deg, #121212, #0d1a2e, #1a1a3d, #2d2d57);
-      background-size: 400% 400%;
-      animation: gradient-flow 15s ease infinite;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* --- ✨ ORIGINAL LIGHT/DARK MODE STYLES ✨ --- */
+    body.dark-mode {
+      background-color: #121212;
       color: #e0e0e0;
     }
-
-    @keyframes gradient-flow {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+    body.dark-mode a {
+      color: #9ad1ff;
     }
-    
-    /* Ensure default text is brighter */
-    .text-gray-800 { color: #e0e0e0; }
-    .text-gray-500 { color: #a0aec0; }
-    
-    /* Remove default light background */
-    .bg-gray-50 { background-color: transparent; }
-
-    /* 2. Navbar & Footer Styling */
-    .navbar, footer {
-      background-color: rgba(18, 18, 18, 0.6) !important;
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    body.dark-mode .navbar {
+      background-color: #1f1f1f !important;
     }
-    footer { border-bottom: none; border-top: 1px solid rgba(255, 255, 255, 0.1); }
-    .navbar a { color: #e0e0e0; }
-    footer p { color: #e0e0e0; }
+    body.dark-mode input,
+    body.dark-mode textarea {
+      background-color: #1f1f1f;
+      color: #e0e0e0;
+      border-color: #333;
+    }
+    body.dark-mode .bg-white {
+      background-color: #1f1f1f !important;
+    }
 
-    /* 3. "Glassmorphism" UI for Cards & Forms */
-    .glass-card {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-radius: 1rem; /* 16px */
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    /* Smooth Transitions Globally */
+    * {
       transition: all 0.3s ease;
     }
-    .glass-card:hover {
-      border-color: rgba(147, 197, 253, 0.4);
+
+    /* Card Hover Effect */
+    .shadow-lg:hover {
       transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+    body.dark-mode .shadow-lg:hover {
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
     }
 
-    /* 4. Inputs & Buttons */
-    input, textarea {
-      background-color: rgba(0, 0, 0, 0.3);
-      border-color: rgba(255, 255, 255, 0.2);
-      color: #e0e0e0;
-      border-radius: 0.5rem;
+    /* Scroll animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
     }
-    input::placeholder, textarea::placeholder {
-      color: #a0aec0;
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
-    input:focus, textarea:focus {
+
+    /* Improved Input Focus */
+    input:focus,
+    textarea:focus {
       outline: none;
-      border-color: #60a5fa; /* A vibrant blue */
-      box-shadow: 0 0 10px rgba(96, 165, 250, 0.5);
-    }
-    .btn-primary {
-      transition: all 0.3s ease;
-      box-shadow: 0 0 5px rgba(96, 165, 250, 0);
-    }
-    .btn-primary:hover {
-      box-shadow: 0 0 15px rgba(96, 165, 250, 0.6);
+      border-color: #4f46e5;
+      box-shadow: 0 0 5px rgba(79, 70, 229, 0.5);
     }
     
-    /* 5. Headings & Links */
-    h1, h2, h3, h4 { color: #ffffff; }
-    a { color: #93c5fd; }
-    h3 { border-bottom-color: rgba(255, 255, 255, 0.2); }
-    
-    /* Remove old heading hover effect */
-    h3::after { display: none; }
-    
-    /* --- ✨ FUTURISTIC ANIMATION STYLES (REFINED) ✨ --- */
+    /* --- ✨ NEW FUTURISTIC ANIMATION STYLES ✨ --- */
     #hero-container {
       display: flex;
       flex-direction: column;
@@ -111,16 +87,15 @@
 
     #animated-logo-container {
       position: relative;
-      perspective: 1500px; /* Increased for better 3D effect */
+      perspective: 1500px;
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
-    /* Refined for 1024x1024 image */
     #company-logo {
       width: 100%;
-      max-width: 350px; /* Increased size for high-res image */
+      max-width: 350px;
       height: auto;
       opacity: 0;
       transform: rotateY(-45deg) scale(0.5);
@@ -133,12 +108,27 @@
       bottom: 40px;
       width: 400px;
       height: 80px;
-      background: radial-gradient(ellipse at center, rgba(96, 165, 250, 0.4) 0%, rgba(96, 165, 250, 0) 70%);
+      background: radial-gradient(ellipse at center, rgba(79, 70, 229, 0.4) 0%, rgba(79, 70, 229, 0) 70%);
       border-radius: 50%;
       transform: rotateX(80deg);
       animation: projector-glow 4s infinite alternate;
     }
     
+    /* Scanner Line */
+    #animated-logo-container::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: #93c5fd;
+      box-shadow: 0 0 10px #93c5fd;
+      animation: scan-lines 4s cubic-bezier(0.23, 1, 0.32, 1) infinite;
+      opacity: 0;
+      animation-delay: 3s;
+    }
+
     @keyframes holographic-reveal {
       0% {
         opacity: 0;
@@ -153,46 +143,47 @@
         opacity: 1;
         filter: blur(0);
         transform: rotateY(0deg) scale(1) translateY(0);
-        box-shadow: 0 0 20px #60a5fa, 0 0 40px #60a5fa, 0 0 60px #4f46e5;
       }
     }
     
-    /* Unused dark mode selectors removed as dark is now the default */
-    /* All other original styles like fade-in remain functional */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    @keyframes projector-glow {
+      from { opacity: 0.6; transform: rotateX(80deg) scale(0.9); }
+      to { opacity: 1; transform: rotateX(80deg) scale(1.1); }
     }
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
+    
+    @keyframes scan-lines {
+      0% { transform: translateY(0); opacity: 0; }
+      10% { opacity: 0.8; }
+      90% { opacity: 0.8; }
+      100% { transform: translateY(350px); opacity: 0; } /* Matches max-width of logo */
     }
-    /* --- ✨ AESTHETIC OVERHAUL END ✨ --- */
   </style>
 </head>
 
-<body class="text-gray-800">
+<body class="bg-gray-50 text-gray-800 transition-colors duration-300">
 
-  <nav class="navbar flex items-center justify-between p-4 text-white shadow-md sticky top-0 z-50">
+  <nav class="navbar flex items-center justify-between p-4 bg-blue-600 text-white shadow-md sticky top-0 z-50">
     <h1 class="text-2xl font-bold">Alumni Connect</h1>
     <div class="space-x-6 hidden md:flex">
-      <a href="#home" class="hover:text-blue-300">Home</a>
-      <a href="#alumni" class="hover:text-blue-300">Alumni</a>
-      <a href="#directory" class="hover:text-blue-300">Directory</a>
-      <a href="#networking" class="hover:text-blue-300">Networking</a>
-      <a href="#events" class="hover:text-blue-300">Events</a>
-      <a href="#mentorship" class="hover:text-blue-300">Mentorship</a>
-      <a href="#donations" class="hover:text-blue-300">Donations</a>
+      <a href="#home" class="hover:underline">Home</a>
+      <a href="#alumni" class="hover:underline">Alumni</a>
+      <a href="#directory" class="hover:underline">Directory</a>
+      <a href="#networking" class="hover:underline">Networking</a>
+      <a href="#events" class="hover:underline">Events</a>
+      <a href="#mentorship" class="hover:underline">Mentorship</a>
+      <a href="#donations" class="hover:underline">Donations</a>
     </div>
-    </nav>
+    <button id="darkModeToggle" class="px-4 py-2 bg-gray-900 rounded-lg hover:bg-gray-700 text-sm">
+      🌙 Dark Mode
+    </button>
+  </nav>
 
-  <section id="home" class="fade-in">
+  <section id="home" class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white fade-in">
     <div id="hero-container" class="max-w-7xl mx-auto px-6">
       <div id="hero-text-content" class="text-center md:text-left md:w-1/2 md:pr-12">
-        <h2 class="text-4xl lg:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-purple-400">Stay Connected. Empower the Future.</h2>
+        <h2 class="text-4xl lg:text-5xl font-bold mb-4">Stay Connected. Empower the Future.</h2>
         <p class="text-lg mb-6">Centralized alumni management with networking, mentorship, events, and career support.</p>
-        <a href="#alumni" class="inline-block px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-600 transform hover:scale-105 btn-primary">
+        <a href="#alumni" class="inline-block px-6 py-3 bg-white text-blue-700 font-semibold rounded-lg shadow hover:bg-gray-100 transform hover:scale-105">
           Get Started
         </a>
       </div>
@@ -203,8 +194,8 @@
   </section>
 
   <section id="alumni" class="max-w-5xl mx-auto py-12 px-6 fade-in">
-    <h3 class="text-3xl font-bold mb-6 border-b pb-2">Alumni Registration & Profiles</h3>
-    <form class="grid grid-cols-1 md:grid-cols-2 gap-6 glass-card p-6">
+    <h3 class="text-2xl font-bold mb-6 border-b pb-2">Alumni Registration & Profiles</h3>
+    <form class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 rounded-xl shadow-lg">
       <input type="text" placeholder="Full Name" class="p-3 border rounded"/>
       <input type="email" placeholder="Email (Mandatory)" class="p-3 border rounded"/>
       <input type="text" placeholder="Batch" class="p-3 border rounded"/>
@@ -212,111 +203,53 @@
       <input type="text" placeholder="Current Job Title" class="p-3 border rounded"/>
       <input type="text" placeholder="Company" class="p-3 border rounded"/>
       <input type="text" placeholder="Skills" class="p-3 border rounded"/>
-      <input type="file" class="p-3 border rounded file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"/>
+      <input type="file" class="p-3 border rounded" accept="image/*"/>
       <textarea placeholder="Bio" class="p-3 border rounded col-span-2"></textarea>
-      <button class="col-span-2 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 btn-primary">Register</button>
+      <button class="col-span-2 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">Register</button>
     </form>
   </section>
 
-  <section id="directory" class="py-12 px-6 fade-in">
+  <section id="directory" class="bg-gray-100 py-12 px-6 fade-in">
     <div class="max-w-5xl mx-auto">
-      <h3 class="text-3xl font-bold mb-6 border-b pb-2">Centralized Alumni Directory</h3>
-      <input type="text" placeholder="Search alumni by name, batch, department, company, location, job profile..." class="w-full p-3 border rounded mb-6"/>
+      <h3 class="text-2xl font-bold mb-6 border-b pb-2">Centralized Alumni Directory</h3>
+      <input type="text" placeholder="Search alumni by name, batch, department..." class="w-full p-3 border rounded mb-6"/>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="glass-card p-6 text-center">
-          <img src="https://via.placeholder.com/100" alt="profile" class="w-24 h-24 rounded-full mb-3 mx-auto border-2 border-blue-300"/>
+        <div class="bg-white p-6 rounded-xl shadow-lg">
+          <img src="https://via.placeholder.com/100" alt="profile" class="w-20 h-20 rounded-full mb-3"/>
           <h4 class="text-lg font-semibold">Jane Doe</h4>
-          <p class="text-sm">Batch: 2015 | Dept: CSE</p>
+          <p class="text-sm text-gray-500">Batch: 2015 | Dept: CSE</p>
           <p class="text-sm mt-2">Software Engineer @ Google</p>
         </div>
-        <div class="glass-card p-6 text-center">
-          <img src="https://via.placeholder.com/100" alt="profile" class="w-24 h-24 rounded-full mb-3 mx-auto border-2 border-blue-300"/>
+        <div class="bg-white p-6 rounded-xl shadow-lg">
+          <img src="https://via.placeholder.com/100" alt="profile" class="w-20 h-20 rounded-full mb-3"/>
           <h4 class="text-lg font-semibold">John Smith</h4>
-          <p class="text-sm">Batch: 2018 | Dept: ECE</p>
+          <p class="text-sm text-gray-500">Batch: 2018 | Dept: ECE</p>
           <p class="text-sm mt-2">Product Manager @ Microsoft</p>
         </div>
-        <div class="glass-card p-6 text-center">
-          <img src="https://via.placeholder.com/100" alt="profile" class="w-24 h-24 rounded-full mb-3 mx-auto border-2 border-blue-300"/>
+        <div class="bg-white p-6 rounded-xl shadow-lg">
+          <img src="https://via.placeholder.com/100" alt="profile" class="w-20 h-20 rounded-full mb-3"/>
           <h4 class="text-lg font-semibold">Alex Ray</h4>
-          <p class="text-sm">Batch: 2017 | Dept: ME</p>
+          <p class="text-sm text-gray-500">Batch: 2017 | Dept: ME</p>
           <p class="text-sm mt-2">Lead Designer @ Tesla</p>
         </div>
       </div>
     </div>
   </section>
-  
-  <section id="networking" class="max-w-5xl mx-auto py-12 px-6 fade-in">
-    <h3 class="text-3xl font-bold mb-6 border-b pb-2">Communication & Networking</h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="glass-card p-6">
-        <h4 class="font-semibold text-lg">Messaging System</h4>
-        <p class="text-sm mt-2">Send direct messages to alumni and students securely.</p>
-        <button class="mt-4 px-4 py-2 bg-blue-600 text-white rounded btn-primary">Open Chat</button>
-      </div>
-      <div class="glass-card p-6">
-        <h4 class="font-semibold text-lg">Discussion Forums</h4>
-        <p class="text-sm mt-2">Join batch-wise or industry-wise groups and discussions.</p>
-        <button class="mt-4 px-4 py-2 bg-green-600 text-white rounded btn-primary">Browse Forums</button>
-      </div>
-    </div>
-  </section>
 
-  <section id="events" class="py-12 px-6 fade-in">
-    <div class="max-w-5xl mx-auto">
-      <h3 class="text-3xl font-bold mb-6 border-b pb-2">Events & Networking</h3>
-      <button class="mb-6 bg-blue-600 text-white px-4 py-2 rounded btn-primary">+ Create Event</button>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="glass-card p-6">
-          <h4 class="text-xl font-semibold">Annual Reunion 2025</h4>
-          <p class="text-sm mt-2">Join your batchmates for a grand reunion in campus!</p>
-          <button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded btn-primary">RSVP</button>
-        </div>
-        <div class="glass-card p-6">
-          <h4 class="text-xl font-semibold">Webinar: Careers in AI</h4>
-          <p class="text-sm mt-2">Learn from alumni in top tech firms about AI & ML opportunities.</p>
-          <button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded btn-primary">Join</button>
-        </div>
-        <div class="glass-card p-6">
-          <h4 class="text-xl font-semibold">Networking Night</h4>
-          <p class="text-sm mt-2">An evening for alumni across industries to connect and collaborate.</p>
-          <button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded btn-primary">Register</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="mentorship" class="max-w-5xl mx-auto py-12 px-6 fade-in">
-    <h3 class="text-3xl font-bold mb-6 border-b pb-2">Mentorship & Career Support</h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="glass-card p-6">
-        <h4 class="text-xl font-semibold">Become a Mentor</h4>
-        <p class="mt-2 text-sm">Volunteer to guide students and junior alumni in their career paths.</p>
-        <button class="mt-4 bg-green-600 text-white px-4 py-2 rounded btn-primary">Sign Up</button>
-      </div>
-      <div class="glass-card p-6">
-        <h4 class="text-xl font-semibold">Request Mentorship</h4>
-        <p class="mt-2 text-sm">Seek career guidance, resume reviews, and interview tips from senior alumni.</p>
-        <button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded btn-primary">Request</button>
-      </div>
-    </div>
-  </section>
-
-  <section id="donations" class="py-12 px-6 fade-in">
-    <div class="max-w-5xl mx-auto">
-      <h3 class="text-3xl font-bold mb-6 border-b pb-2">Fundraising & Donations</h3>
-      <div class="glass-card p-6">
-        <p class="text-sm">Support your alma mater’s growth. Transparent reports of all contributions.</p>
-        <button class="mt-4 bg-purple-600 text-white px-6 py-2 rounded-lg btn-primary">Donate Now</button>
-      </div>
-    </div>
-  </section>
-
-  <footer class="text-center py-6">
+  <footer class="text-center py-6 bg-blue-600 text-white fade-in">
     <p>&copy; 2025 Alumni Connect | Built with ❤️ for SIH</p>
   </footer>
 
   <script>
-    // Scroll Animation Observer (no changes needed)
+    // Dark Mode Toggle
+    const toggle = document.getElementById('darkModeToggle');
+    const body = document.body;
+    toggle.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      toggle.textContent = body.classList.contains('dark-mode') ? "☀️ Light Mode" : "🌙 Dark Mode";
+    });
+
+    // Scroll Animation Observer
     const fadeElems = document.querySelectorAll('.fade-in');
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
