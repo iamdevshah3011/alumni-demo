@@ -309,4 +309,54 @@
 
   <section id="mentorship" class="max-w-5xl mx-auto py-12 px-6 fade-in">
     <h3 class="text-2xl font-bold mb-6 border-b pb-2">Mentorship & Career Support</h3>
-    <div class="
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="bg-white p-6 rounded-xl shadow-lg">
+        <h4 class="text-xl font-semibold">Become a Mentor</h4>
+        <p class="mt-2 text-sm">Volunteer to guide students and junior alumni in their career paths.</p>
+        <button class="mt-4 bg-green-600 text-white px-4 py-2 rounded">Sign Up</button>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow-lg">
+        <h4 class="text-xl font-semibold">Request Mentorship</h4>
+        <p class="mt-2 text-sm">Seek career guidance, resume reviews, and interview tips from senior alumni.</p>
+        <button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">Request</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="donations" class="bg-gray-100 py-12 px-6 fade-in">
+    <div class="max-w-5xl mx-auto">
+      <h3 class="text-2xl font-bold mb-6 border-b pb-2">Fundraising & Donations</h3>
+      <div class="bg-white p-6 rounded-xl shadow-lg">
+        <p class="text-sm">Support your alma mater’s growth. Transparent reports of all contributions.</p>
+        <button class="mt-4 bg-purple-600 text-white px-6 py-2 rounded-lg">Donate Now</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="text-center py-6 bg-blue-600 text-white fade-in">
+    <p>&copy; 2025 Alumni Connect | Built with ❤️ for SIH</p>
+  </footer>
+
+  <script>
+    // Dark Mode Toggle
+    const toggle = document.getElementById('darkModeToggle');
+    const body = document.body;
+    toggle.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      toggle.textContent = body.classList.contains('dark-mode') ? "☀️ Light Mode" : "🌙 Dark Mode";
+    });
+
+    // Scroll Animation Observer
+    const fadeElems = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    fadeElems.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
