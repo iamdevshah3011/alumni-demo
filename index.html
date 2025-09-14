@@ -14,7 +14,7 @@
       font-family: 'Inter', sans-serif;
     }
 
-    /* --- ✨ ORIGINAL LIGHT/DARK MODE STYLES ✨ --- */
+    /* Dark Mode Styles */
     body.dark-mode {
       background-color: #121212;
       color: #e0e0e0;
@@ -35,14 +35,17 @@
       background-color: #1f1f1f !important;
     }
     
-    /* ADDED: Hero Section Dark Mode Styling */
     body.dark-mode #home {
-        background-color: #2d3748; /* A dark gray */
+        background-color: #2d3748;
     }
     body.dark-mode #home h2, body.dark-mode #home p {
         color: #e0e0e0;
     }
 
+    /* Section Backgrounds for Dark Mode */
+    body.dark-mode #directory { background-color: #1a1a1a; }
+    body.dark-mode #events { background-color: #222222; }
+    body.dark-mode #donations { background-color: #1a1a1a; }
 
     /* Smooth Transitions Globally */
     * {
@@ -69,6 +72,25 @@
       transform: translateY(0);
     }
 
+    /* Text Animations for headings */
+    h3 {
+      position: relative;
+      overflow: hidden;
+    }
+    h3::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 3px;
+      bottom: 0;
+      left: 0;
+      background-color: #4f46e5;
+      transition: width 0.5s ease;
+    }
+    h3:hover::after {
+      width: 100%;
+    }
+
     /* Improved Input Focus */
     input:focus,
     textarea:focus {
@@ -76,8 +98,8 @@
       border-color: #4f46e5;
       box-shadow: 0 0 5px rgba(79, 70, 229, 0.5);
     }
-    
-    /* --- ✨ NEW FUTURISTIC ANIMATION STYLES ✨ --- */
+
+    /* --- ✨ FINALIZED FUTURISTIC ANIMATION ✨ --- */
     #hero-container {
       display: flex;
       flex-direction: column;
@@ -104,7 +126,7 @@
 
     #company-logo {
       width: 100%;
-      max-width: 350px;
+      max-width: 350px; /* Optimized for 1024x1024 image */
       height: auto;
       opacity: 0;
       transform: rotateY(-45deg) scale(0.5);
@@ -123,7 +145,7 @@
       animation: projector-glow 4s infinite alternate;
     }
     
-    /* Scanner Line */
+    /* Scanner Line (FIXED & VISIBLE) */
     #animated-logo-container::after {
       content: '';
       position: absolute;
@@ -132,10 +154,10 @@
       width: 100%;
       height: 3px;
       background: #93c5fd;
-      box-shadow: 0 0 10px #93c5fd;
+      border-radius: 2px;
+      box-shadow: 0 0 10px #93c5fd, 0 0 20px white;
       animation: scan-lines 4s cubic-bezier(0.23, 1, 0.32, 1) infinite;
-      opacity: 0;
-      animation-delay: 3s;
+      animation-delay: 3.5s;
     }
 
     @keyframes holographic-reveal {
@@ -162,9 +184,9 @@
     
     @keyframes scan-lines {
       0% { transform: translateY(0); opacity: 0; }
-      10% { opacity: 0.8; }
-      90% { opacity: 0.8; }
-      100% { transform: translateY(350px); opacity: 0; } /* Matches max-width of logo */
+      5% { opacity: 1; }
+      95% { opacity: 1; }
+      100% { transform: translateY(350px); opacity: 0; }
     }
   </style>
 </head>
@@ -205,14 +227,14 @@
   <section id="alumni" class="max-w-5xl mx-auto py-12 px-6 fade-in">
     <h3 class="text-2xl font-bold mb-6 border-b pb-2">Alumni Registration & Profiles</h3>
     <form class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 rounded-xl shadow-lg">
-      <input type="text" placeholder="Full Name" class="p-3 border rounded"/>
-      <input type="email" placeholder="Email (Mandatory)" class="p-3 border rounded"/>
-      <input type="text" placeholder="Batch" class="p-3 border rounded"/>
-      <input type="text" placeholder="Department" class="p-3 border rounded"/>
-      <input type="text" placeholder="Current Job Title" class="p-3 border rounded"/>
-      <input type="text" placeholder="Company" class="p-3 border rounded"/>
-      <input type="text" placeholder="Skills" class="p-3 border rounded"/>
-      <input type="file" class="p-3 border rounded" accept="image/*"/>
+      <input type="text" placeholder="Full Name" class="p-3 border rounded" />
+      <input type="email" placeholder="Email (Mandatory)" class="p-3 border rounded" />
+      <input type="text" placeholder="Batch" class="p-3 border rounded" />
+      <input type="text" placeholder="Department" class="p-3 border rounded" />
+      <input type="text" placeholder="Current Job Title" class="p-3 border rounded" />
+      <input type="text" placeholder="Company" class="p-3 border rounded" />
+      <input type="text" placeholder="Skills" class="p-3 border rounded" />
+      <input type="file" class="p-3 border rounded" accept="image/*" />
       <textarea placeholder="Bio" class="p-3 border rounded col-span-2"></textarea>
       <button class="col-span-2 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">Register</button>
     </form>
@@ -221,22 +243,22 @@
   <section id="directory" class="bg-gray-100 py-12 px-6 fade-in">
     <div class="max-w-5xl mx-auto">
       <h3 class="text-2xl font-bold mb-6 border-b pb-2">Centralized Alumni Directory</h3>
-      <input type="text" placeholder="Search alumni by name, batch, department..." class="w-full p-3 border rounded mb-6"/>
+      <input type="text" placeholder="Search alumni by name, batch, department..." class="w-full p-3 border rounded mb-6" />
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="bg-white p-6 rounded-xl shadow-lg">
-          <img src="https://via.placeholder.com/100" alt="profile" class="w-20 h-20 rounded-full mb-3"/>
+          <img src="https://via.placeholder.com/100" alt="profile" class="w-20 h-20 rounded-full mb-3" />
           <h4 class="text-lg font-semibold">Jane Doe</h4>
           <p class="text-sm text-gray-500">Batch: 2015 | Dept: CSE</p>
           <p class="text-sm mt-2">Software Engineer @ Google</p>
         </div>
         <div class="bg-white p-6 rounded-xl shadow-lg">
-          <img src="https://via.placeholder.com/100" alt="profile" class="w-20 h-20 rounded-full mb-3"/>
+          <img src="https://via.placeholder.com/100" alt="profile" class="w-20 h-20 rounded-full mb-3" />
           <h4 class="text-lg font-semibold">John Smith</h4>
           <p class="text-sm text-gray-500">Batch: 2018 | Dept: ECE</p>
           <p class="text-sm mt-2">Product Manager @ Microsoft</p>
         </div>
         <div class="bg-white p-6 rounded-xl shadow-lg">
-          <img src="https://via.placeholder.com/100" alt="profile" class="w-20 h-20 rounded-full mb-3"/>
+          <img src="https://via.placeholder.com/100" alt="profile" class="w-20 h-20 rounded-full mb-3" />
           <h4 class="text-lg font-semibold">Alex Ray</h4>
           <p class="text-sm text-gray-500">Batch: 2017 | Dept: ME</p>
           <p class="text-sm mt-2">Lead Designer @ Tesla</p>
@@ -244,31 +266,47 @@
       </div>
     </div>
   </section>
-  
-  <footer class="text-center py-6 bg-blue-600 text-white fade-in">
-    <p>&copy; 2025 Alumni Connect | Built with ❤️ for SIH</p>
-  </footer>
 
-  <script>
-    // Dark Mode Toggle
-    const toggle = document.getElementById('darkModeToggle');
-    const body = document.body;
-    toggle.addEventListener('click', () => {
-      body.classList.toggle('dark-mode');
-      toggle.textContent = body.classList.contains('dark-mode') ? "☀️ Light Mode" : "🌙 Dark Mode";
-    });
+  <section id="networking" class="max-w-5xl mx-auto py-12 px-6 fade-in">
+    <h3 class="text-2xl font-bold mb-6 border-b pb-2">Communication & Networking</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="bg-white p-6 rounded-xl shadow-lg">
+        <h4 class="font-semibold text-lg">Messaging System</h4>
+        <p class="text-sm mt-2">Send direct messages to alumni and students securely.</p>
+        <button class="mt-4 px-4 py-2 bg-blue-600 text-white rounded">Open Chat</button>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow-lg">
+        <h4 class="font-semibold text-lg">Discussion Forums</h4>
+        <p class="text-sm mt-2">Join batch-wise or industry-wise groups and discussions.</p>
+        <button class="mt-4 px-4 py-2 bg-green-600 text-white rounded">Browse Forums</button>
+      </div>
+    </div>
+  </section>
 
-    // Scroll Animation Observer
-    const fadeElems = document.querySelectorAll('.fade-in');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.1 });
+  <section id="events" class="bg-gray-100 py-12 px-6 fade-in">
+    <div class="max-w-5xl mx-auto">
+      <h3 class="text-2xl font-bold mb-6 border-b pb-2">Events & Networking</h3>
+      <button class="mb-6 bg-blue-600 text-white px-4 py-2 rounded">+ Create Event</button>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-xl shadow-lg">
+          <h4 class="text-xl font-semibold">Annual Reunion 2025</h4>
+          <p class="text-sm mt-2">Join your batchmates for a grand reunion in campus!</p>
+          <button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">RSVP</button>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-lg">
+          <h4 class="text-xl font-semibold">Webinar: Careers in AI</h4>
+          <p class="text-sm mt-2">Learn from alumni in top tech firms about AI & ML opportunities.</p>
+          <button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">Join</button>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-lg">
+          <h4 class="text-xl font-semibold">Networking Night</h4>
+          <p class="text-sm mt-2">An evening for alumni across industries to connect and collaborate.</p>
+          <button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">Register</button>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    fadeElems.forEach(el => observer.observe(el));
-  </script>
-</body>
-</html>
+  <section id="mentorship" class="max-w-5xl mx-auto py-12 px-6 fade-in">
+    <h3 class="text-2xl font-bold mb-6 border-b pb-2">Mentorship & Career Support</h3>
+    <div class="
