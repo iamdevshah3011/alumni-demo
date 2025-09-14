@@ -34,6 +34,15 @@
     body.dark-mode .bg-white {
       background-color: #1f1f1f !important;
     }
+    
+    /* ADDED: Hero Section Dark Mode Styling */
+    body.dark-mode #home {
+        background-color: #2d3748; /* A dark gray */
+    }
+    body.dark-mode #home h2, body.dark-mode #home p {
+        color: #e0e0e0;
+    }
+
 
     /* Smooth Transitions Globally */
     * {
@@ -178,12 +187,12 @@
     </button>
   </nav>
 
-  <section id="home" class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white fade-in">
+  <section id="home" class="bg-gray-200 text-gray-800 fade-in">
     <div id="hero-container" class="max-w-7xl mx-auto px-6">
       <div id="hero-text-content" class="text-center md:text-left md:w-1/2 md:pr-12">
         <h2 class="text-4xl lg:text-5xl font-bold mb-4">Stay Connected. Empower the Future.</h2>
         <p class="text-lg mb-6">Centralized alumni management with networking, mentorship, events, and career support.</p>
-        <a href="#alumni" class="inline-block px-6 py-3 bg-white text-blue-700 font-semibold rounded-lg shadow hover:bg-gray-100 transform hover:scale-105">
+        <a href="#alumni" class="inline-block px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 transform hover:scale-105">
           Get Started
         </a>
       </div>
@@ -235,7 +244,7 @@
       </div>
     </div>
   </section>
-
+  
   <footer class="text-center py-6 bg-blue-600 text-white fade-in">
     <p>&copy; 2025 Alumni Connect | Built with ❤️ for SIH</p>
   </footer>
