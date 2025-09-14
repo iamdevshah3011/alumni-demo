@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alumni Connect Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .dark-mode {
+      background-color: #0f172a;
+      color: #f1f5f9;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800 transition-colors duration-300">
+
+  <!-- Navbar -->
+  <nav class="flex items-center justify-between p-4 bg-blue-600 text-white shadow-md">
+    <h1 class="text-2xl font-bold">Alumni Connect</h1>
+    <div class="space-x-6 hidden md:flex">
+      <a href="#home" class="hover:underline">Home</a>
+      <a href="#alumni" class="hover:underline">Alumni</a>
+      <a href="#directory" class="hover:underline">Directory</a>
+      <a href="#networking" class="hover:underline">Networking</a>
+      <a href="#events" class="hover:underline">Events</a>
+      <a href="#mentorship" class="hover:underline">Mentorship</a>
+      <a href="#donations" class="hover:underline">Donations</a>
+    </div>
+    <button id="darkModeToggle" class="px-4 py-2 bg-gray-900 rounded-lg hover:bg-gray-700 text-sm">
+      🌙 Dark Mode
+    </button>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="home" class="text-center py-16 bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
+    <h2 class="text-4xl font-bold mb-4">Stay Connected. Empower the Future.</h2>
+    <p class="text-lg mb-6">Centralized alumni management with networking, mentorship, events, and career support.</p>
+    <a href="#alumni" class="px-6 py-3 bg-white text-blue-700 font-semibold rounded-lg shadow hover:bg-gray-100">
+      Get Started
+    </a>
+  </section>
+
+  <!-- Alumni Registration -->
+  <section id="alumni" class="max-w-5xl mx-auto py-12 px-6">
+    <h3 class="text-2xl font-bold mb-6 border-b pb-2">Alumni Registration & Profiles</h3>
+    <form class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 rounded-xl shadow">
+      <input type="text" placeholder="Full Name" class="p-3 border rounded">
+      <input type="email" placeholder="Email (Mandatory)" class="p-3 border rounded">
+      <input type="text" placeholder="Batch" class="p-3 border rounded">
+      <input type="text" placeholder="Department" class="p-3 border rounded">
+      <input type="text" placeholder="Current Job Title" class="p-3 border rounded">
+      <input type="text" placeholder="Company" class="p-3 border rounded">
+      <input type="text" placeholder="Skills" class="p-3 border rounded">
+      <input type="file" class="p-3 border rounded" accept="image/*">
+      <textarea placeholder="Bio" class="p-3 border rounded col-span-2"></textarea>
+      <button class="col-span-2 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">Register</button>
+    </form>
+  </section>
+
+  <!-- Alumni Directory -->
+  <section id="directory" class="bg-gray-100 py-12 px-6">
+    <div class="max-w-5xl mx-auto">
+      <h3 class="text-2xl font-bold mb-6 border-b pb-2">Centralized Alumni Directory</h3>
+      <input type="text" placeholder="Search alumni by name, batch, department, company, location, job profile..."
+             class="w-full p-3 border rounded mb-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg">
+          <img src="https://via.placeholder.com/100" alt="profile" class="w-20 h-20 rounded-full mb-3">
+          <h4 class="text-lg font-semibold">Jane Doe</h4>
+          <p class="text-sm text-gray-500">Batch: 2015 | Dept: CSE</p>
+          <p class="text-sm mt-2">Software Engineer @ Google</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg">
+          <img src="https://via.placeholder.com/100" alt="profile" class="w-20 h-20 rounded-full mb-3">
+          <h4 class="text-lg font-semibold">John Smith</h4>
+          <p class="text-sm text-gray-500">Batch: 2018 | Dept: ECE</p>
+          <p class="text-sm mt-2">Product Manager @ Microsoft</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Networking -->
+  <section id="networking" class="max-w-5xl mx-auto py-12 px-6">
+    <h3 class="text-2xl font-bold mb-6 border-b pb-2">Communication & Networking</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="bg-white p-6 rounded-xl shadow">
+        <h4 class="font-semibold text-lg">Messaging System</h4>
+        <p class="text-sm mt-2">Send direct messages to alumni and students securely.</p>
+        <button class="mt-4 px-4 py-2 bg-blue-600 text-white rounded">Open Chat</button>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow">
+        <h4 class="font-semibold text-lg">Discussion Forums</h4>
+        <p class="text-sm mt-2">Join batch-wise or industry-wise groups and discussions.</p>
+        <button class="mt-4 px-4 py-2 bg-green-600 text-white rounded">Browse Forums</button>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow">
+        <h4 class="font-semibold text-lg">Connection Requests</h4>
+        <p class="text-sm mt-2">Alumni ↔ Student, Alumni ↔ Alumni networking requests.</p>
+        <button class="mt-4 px-4 py-2 bg-purple-600 text-white rounded">Find Connections</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Events -->
+  <section id="events" class="bg-gray-100 py-12 px-6">
+    <div class="max-w-5xl mx-auto">
+      <h3 class="text-2xl font-bold mb-6 border-b pb-2">Events & Networking</h3>
+      <button class="mb-6 bg-blue-600 text-white px-4 py-2 rounded">+ Create Event</button>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg">
+          <h4 class="text-xl font-semibold">Annual Reunion 2025</h4>
+          <p class="text-sm mt-2">Join your batchmates for a grand reunion in campus!</p>
+          <button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">RSVP</button>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg">
+          <h4 class="text-xl font-semibold">Webinar: Careers in AI</h4>
+          <p class="text-sm mt-2">Learn from alumni in top tech firms about AI & ML opportunities.</p>
+          <button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">Join</button>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg">
+          <h4 class="text-xl font-semibold">Networking Night</h4>
+          <p class="text-sm mt-2">An evening for alumni across industries to connect and collaborate.</p>
+          <button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">Register</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mentorship -->
+  <section id="mentorship" class="max-w-5xl mx-auto py-12 px-6">
+    <h3 class="text-2xl font-bold mb-6 border-b pb-2">Mentorship & Career Support</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="bg-white p-6 rounded-xl shadow">
+        <h4 class="text-xl font-semibold">Become a Mentor</h4>
+        <p class="mt-2 text-sm">Volunteer to guide students and junior alumni in their career paths.</p>
+        <button class="mt-4 bg-green-600 text-white px-4 py-2 rounded">Sign Up</button>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow">
+        <h4 class="text-xl font-semibold">Request Mentorship</h4>
+        <p class="mt-2 text-sm">Seek career guidance, resume reviews, and interview tips from senior alumni.</p>
+        <button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">Request</button>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow">
+        <h4 class="text-xl font-semibold">Job & Internship Postings</h4>
+        <p class="mt-2 text-sm">Browse opportunities shared by alumni to help students and peers.</p>
+        <button class="mt-4 bg-purple-600 text-white px-4 py-2 rounded">View Jobs</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Donations -->
+  <section id="donations" class="bg-gray-100 py-12 px-6">
+    <div class="max-w-5xl mx-auto">
+      <h3 class="text-2xl font-bold mb-6 border-b pb-2">Fundraising & Donations</h3>
+      <div class="bg-white p-6 rounded-xl shadow">
+        <p class="text-sm">Support your alma mater’s growth. Transparent reports of all contributions.</p>
+        <button class="mt-4 bg-purple-600 text-white px-6 py-2 rounded-lg">Donate Now</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center py-6 bg-blue-600 text-white">
+    <p>&copy; 2025 Alumni Connect | Built with ❤️ for SIH</p>
+  </footer>
+
+  <script>
+    // Dark Mode Toggle
+    const toggle = document.getElementById('darkModeToggle');
+    const body = document.body;
+    toggle.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      if (body.classList.contains('dark-mode')) {
+        toggle.textContent = "☀️ Light Mode";
+      } else {
+        toggle.textContent = "🌙 Dark Mode";
+      }
+    });
+  </script>
+</body>
+</html>
