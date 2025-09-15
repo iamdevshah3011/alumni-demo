@@ -1,9 +1,6 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Alumni Connect Platform</title>
@@ -193,9 +190,7 @@
     .message.them { background-color: #f1f5f9; align-self: flex-start; }
 
   </style>
-
 </head>
-
 <body class="bg-gray-50 text-gray-800 transition-colors duration-300">
 
   <nav class="navbar flex items-center justify-between p-4 bg-blue-600 text-white shadow-md sticky top-0 z-50">
@@ -210,7 +205,6 @@
       <a href="#donations" class="hover:underline">Donations</a>
     </div>
 
-    <!-- ADDED: Auth status / quick links -->
     <div class="flex items-center gap-4">
       <div id="auth-status" class="text-sm hidden md:block">Not signed in</div>
       <button id="openAuthBtn" class="px-3 py-1 bg-white text-blue-600 rounded hover:opacity-90">Sign up / Log in</button>
@@ -244,9 +238,8 @@
       <input type="text" id="alumni-dept" placeholder="Department" class="p-3 border rounded" />
       <input type="text" id="alumni-role" placeholder="Current Job Title" class="p-3 border rounded" />
       <input type="text" id="alumni-company" placeholder="Company" class="p-3 border rounded" />
-      <input type="text" id="alumni-skills" placeholder="Skills" class="p-3 border rounded" />
-      <input type="file" class="p-3 border rounded" accept="image/*" />
-      <textarea id="alumni-bio" placeholder="Bio" class="p-3 border rounded col-span-2"></textarea>
+      <input type="text" id="alumni-location" placeholder="Location (e.g., City, Country)" class="p-3 border rounded" />
+      <input type="file" class="p-3 border rounded col-span-2" accept="image/*" />
       <button class="col-span-2 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">Register</button>
     </form>
   </section>
@@ -255,10 +248,8 @@
     <div class="max-w-5xl mx-auto">
       <h3 class="text-2xl font-bold mb-6 border-b pb-2">Centralized Alumni Directory</h3>
 
-      <!-- Existing input preserved; we'll attach an ID in JS by selecting it to keep the exact markup -->
       <input type="text" placeholder="Search alumni by name, batch, department..." class="w-full p-3 border rounded mb-6" />
 
-      <!-- ADDED: search buttons + hint about privacy -->
       <div class="flex items-center gap-3 mb-4">
         <button id="directorySearchBtn" class="px-4 py-2 bg-blue-600 text-white rounded">Search</button>
         <button id="clearSearchBtn" class="px-4 py-2 bg-gray-300 text-gray-800 rounded">Clear</button>
@@ -279,19 +270,16 @@
         <p class="text-sm mt-2">Send direct messages to alumni and students securely.</p>
         <button id="openChatBtn" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded">Open Chat</button>
 
-        <!-- ADDED: Chat panel (hidden until user opens) -->
         <div id="chatPanel" class="mt-4 hidden">
           <div class="flex gap-4">
             <div class="w-1/3 border p-3 rounded">
               <input id="chatUserSearch" placeholder="Search alumni to chat..." class="w-full p-2 border rounded mb-3" />
               <div id="chatUserList" class="space-y-2 max-h-56 overflow-y-auto">
-                <!-- dynamic -->
-              </div>
+                </div>
             </div>
             <div class="w-2/3 border p-3 rounded flex flex-col">
               <div id="chatMessages" class="chat-container mb-3 flex flex-col">
-                <!-- messages appear here -->
-              </div>
+                </div>
               <div class="flex gap-2">
                 <input id="chatMessageInput" placeholder="Type a message..." class="flex-1 p-2 border rounded" />
                 <button id="sendChatBtn" class="px-4 py-2 bg-blue-600 text-white rounded">Send</button>
@@ -307,13 +295,11 @@
         <p class="text-sm mt-2">Join batch-wise or industry-wise groups and discussions.</p>
         <button id="openForumsBtn" class="mt-4 px-4 py-2 bg-green-600 text-white rounded">Browse Forums</button>
 
-        <!-- ADDED: Forum panel -->
         <div id="forumPanel" class="mt-4 hidden">
           <div class="flex gap-4">
             <div class="w-1/3 border p-3 rounded">
               <h5 class="font-semibold mb-2">Forums</h5>
               <ul id="forumList" class="space-y-2">
-                <!-- dynamic list of forum threads / groups -->
                 <li class="p-2 border rounded cursor-pointer" data-forum="general">General</li>
                 <li class="p-2 border rounded cursor-pointer" data-forum="jobs">Jobs & Careers</li>
                 <li class="p-2 border rounded cursor-pointer" data-forum="reunions">Reunions</li>
@@ -322,7 +308,6 @@
 
             <div class="w-2/3 border p-3 rounded flex flex-col">
               <div id="forumThreads" class="mb-3 space-y-3 overflow-y-auto" style="max-height:320px;">
-                <!-- threads/messages -->
                 <div class="p-3 border rounded">Select a forum to view threads.</div>
               </div>
 
@@ -378,9 +363,6 @@
     <p>&copy; 2025 Alumni Connect | Built with ❤️ for SIH</p>
   </footer>
 
-  <!-- =========================
-       ORIGINAL SCRIPT (untouched)
-       ========================= -->
   <script>
     // --- 1. SUPABASE CLIENT SETUP ---
     const supabaseUrl = 'https://oriswzmkjvyesqlrpbya.supabase.co';
@@ -430,6 +412,7 @@
         dept: document.getElementById('alumni-dept').value,
         role: document.getElementById('alumni-role').value,
         company: document.getElementById('alumni-company').value,
+        location: document.getElementById('alumni-location').value,
       };
 
       const { data, error } = await _supabase
@@ -472,9 +455,6 @@
     document.addEventListener('DOMContentLoaded', loadAlumni);
   </script>
 
-  <!-- =========================
-       NEW ADDITIONS (frontend only) — appended below
-       ========================= -->
   <script>
     // ========== NOTES ==========
     // I DID NOT MODIFY any of your original code above.
@@ -522,7 +502,7 @@
     // Multi-field search: search name, batch, dept, company, skills using ilike
     async function searchAlumni(query) {
       if (!query || query.trim().length === 0) {
-        alert('Enter a search term (name, batch, department, company or skill).');
+        alert('Enter a search term (name, batch, department, company or location).');
         return;
       }
       const q = query.trim();
@@ -532,9 +512,9 @@
       // We'll query only requested columns to minimize exposure.
       const { data, error } = await _supabase
         .from('alumni')
-        .select('id, name, batch, dept, role, company, skills, bio')
+        .select('id, name, batch, dept, role, company, location, email')
         .or(
-          `name.ilike.%${q}%,batch.ilike.%${q}%,dept.ilike.%${q}%,company.ilike.%${q}%,skills.ilike.%${q}%`
+          `name.ilike.%${q}%,batch.ilike.%${q}%,dept.ilike.%${q}%,company.ilike.%${q}%,location.ilike.%${q}%`
         )
         .limit(50);
 
@@ -555,8 +535,7 @@
           <h4 class="text-lg font-semibold">${escapeHtml(alumni.name || 'Unknown')}</h4>
           <p class="text-sm text-gray-500">Batch: ${escapeHtml(alumni.batch || 'N/A')} | Dept: ${escapeHtml(alumni.dept || 'N/A')}</p>
           <p class="text-sm mt-2">${escapeHtml(alumni.role || 'Role not specified')} @ ${escapeHtml(alumni.company || 'Company not specified')}</p>
-          <p class="text-sm mt-3 text-gray-700"><strong>Skills:</strong> ${escapeHtml(alumni.skills || '—')}</p>
-          <p class="text-sm mt-2 text-gray-600">${escapeHtml(alumni.bio || '')}</p>
+          <p class="text-sm mt-3 text-gray-700"><strong>Location:</strong> ${escapeHtml(alumni.location || '—')}</p>
           <div class="mt-3 flex gap-2">
             <button class="openProfileBtn px-3 py-1 bg-blue-600 text-white rounded" data-id="${alumni.id}">View / Message</button>
             <button class="connectBtn px-3 py-1 bg-green-600 text-white rounded" data-id="${alumni.id}">Connect</button>
@@ -839,7 +818,7 @@
             const newMsg = payload.new;
             if (!newMsg) return;
             const relevant = (newMsg.from_id === currentUser?.id && newMsg.to_id === parseInt(userId)) ||
-                             (newMsg.from_id === parseInt(userId) && newMsg.to_id === currentUser?.id);
+                               (newMsg.from_id === parseInt(userId) && newMsg.to_id === currentUser?.id);
             if (relevant) {
               appendMessageToChat(newMsg, newMsg.from_id === currentUser?.id ? 'me' : 'them');
             }
@@ -856,7 +835,7 @@
               const newMsg = payload.new;
               if (!newMsg) return;
               const relevant = (newMsg.from_id === currentUser?.id && newMsg.to_id === parseInt(userId)) ||
-                               (newMsg.from_id === parseInt(userId) && newMsg.to_id === currentUser?.id);
+                                (newMsg.from_id === parseInt(userId) && newMsg.to_id === currentUser?.id);
               if (relevant) appendMessageToChat(newMsg, newMsg.from_id === currentUser?.id ? 'me' : 'them');
             })
             .subscribe();
@@ -1034,7 +1013,5 @@
     });
 
   </script>
-
 </body>
-
 </html>
