@@ -300,7 +300,6 @@
     const { createClient } = supabase;
     const _supabase = createClient(supabaseUrl, supabaseKey);
 
-
     // --- 2. LOAD ALUMNI DIRECTORY ---
     async function loadAlumni() {
       const { data, error } = await _supabase
@@ -313,35 +312,35 @@
       }
 
       const container = document.querySelector('#directory .grid');
-      container.innerHTML = ''; // Clear existing content
+      container.innerHTML = ''; 
 
       data.forEach(alumni => {
+        // ✨ CORRECTED: Using capitalized property names to match your database columns
         container.innerHTML += `
           <div class="bg-white p-6 rounded-xl shadow-lg">
             <img src="https://via.placeholder.com/100" alt="profile" class="w-20 h-20 rounded-full mb-3" />
-            <h4 class="text-lg font-semibold">${alumni.name}</h4>
-            <p class="text-sm text-gray-500">Batch: ${alumni.batch || 'N/A'} | Dept: ${alumni.dept || 'N/A'}</p>
-            <p class="text-sm mt-2">${alumni.role || 'Role not specified'} @ ${alumni.company || 'Company not specified'}</p>
+            <h4 class="text-lg font-semibold">${alumni.Name}</h4>
+            <p class="text-sm text-gray-500">Batch: ${alumni.Batch || 'N/A'} | Dept: ${alumni.Department || 'N/A'}</p>
+            <p class="text-sm mt-2">${alumni.Role || 'Role not specified'} @ ${alumni.Company || 'Company not specified'}</p>
           </div>
         `;
       });
     }
 
-
     // --- 3. HANDLE ALUMNI REGISTRATION ---
     document.getElementById('alumni-form').addEventListener('submit', async function(e) {
       e.preventDefault();
 
-      // Reliably get data using IDs
+      // ✨ CORRECTED: Using capitalized keys to match your database columns
       const formData = {
-        name: document.getElementById('alumni-name').value,
-        email: document.getElementById('alumni-email').value,
-        batch: document.getElementById('alumni-batch').value,
-        dept: document.getElementById('alumni-dept').value,
-        role: document.getElementById('alumni-role').value,
-        company: document.getElementById('alumni-company').value,
-        skills: document.getElementById('alumni-skills').value,
-        bio: document.getElementById('alumni-bio').value,
+        Name: document.getElementById('alumni-name').value,
+        Email: document.getElementById('alumni-email').value,
+        Batch: document.getElementById('alumni-batch').value,
+        Department: document.getElementById('alumni-dept').value,
+        Role: document.getElementById('alumni-role').value,
+        Company: document.getElementById('alumni-company').value,
+        Skills: document.getElementById('alumni-skills').value,
+        Bio: document.getElementById('alumni-bio').value,
       };
 
       const { data, error } = await _supabase
@@ -353,11 +352,10 @@
         alert('Failed to register alumni. Please check the console for details.');
       } else {
         alert('Alumni registered successfully!');
-        document.getElementById('alumni-form').reset(); // Clear the form
-        loadAlumni(); // Reload the directory with the new entry
+        document.getElementById('alumni-form').reset();
+        loadAlumni();
       }
     });
-
 
     // --- 4. DARK MODE & SCROLL ANIMATION ---
     const toggle = document.getElementById('darkModeToggle');
@@ -376,7 +374,6 @@
       });
     }, { threshold: 0.1 });
     fadeElems.forEach(el => observer.observe(el));
-
 
     // --- 5. INITIALIZE PAGE ---
     document.addEventListener('DOMContentLoaded', loadAlumni);
