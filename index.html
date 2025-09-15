@@ -45,6 +45,7 @@
 
     /* Section Backgrounds for Dark Mode */
     body.dark-mode #directory { background-color: #1a1a1a; }
+    body.dark-mode #forum { background-color: #1a1a1a; } /* Added for new section */
     body.dark-mode #events { background-color: #222222; }
     body.dark-mode #donations { background-color: #1a1a1a; }
 
@@ -73,25 +74,6 @@
       transform: translateY(0);
     }
 
-    /* Text Animations for headings */
-    h3 {
-      position: relative;
-      overflow: hidden;
-    }
-    h3::after {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 3px;
-      bottom: 0;
-      left: 0;
-      background-color: #4f46e5;
-      transition: width 0.5s ease;
-    }
-    h3:hover::after {
-      width: 100%;
-    }
-
     /* Improved Input Focus */
     input:focus,
     textarea:focus {
@@ -114,8 +96,6 @@
     @media (min-width: 768px) {
       #hero-container { flex-direction: row; }
     }
-
-    #hero-text-content { z-index: 10; }
 
     #animated-logo-container {
       position: relative;
@@ -186,13 +166,10 @@
     <h1 class="text-2xl font-bold">Alumni Connect</h1>
     <div class="space-x-6 hidden md:flex">
       <a href="#home" class="hover:underline">Home</a>
-      <a href="#alumni" class="hover:underline">Alumni</a>
+      <a href="#alumni" class="hover:underline">Registration</a>
       <a href="#directory" class="hover:underline">Directory</a>
-      <a href="#networking" class="hover:underline">Networking</a>
-      <a href="#events" class="hover:underline">Events</a>
-      <a href="#mentorship" class="hover:underline">Mentorship</a>
-      <a href="#donations" class="hover:underline">Donations</a>
-    </div>
+      <a href="#forum" class="hover:underline">Forum</a>
+      </div>
     <button id="darkModeToggle" class="px-4 py-2 bg-gray-900 rounded-lg hover:bg-gray-700 text-sm">
       🌙 Dark Mode
     </button>
@@ -232,63 +209,28 @@
   <section id="directory" class="bg-gray-100 py-12 px-6 fade-in">
     <div class="max-w-5xl mx-auto">
       <h3 class="text-2xl font-bold mb-6 border-b pb-2">Centralized Alumni Directory</h3>
-      <input type="text" id="alumni-search" placeholder="Search alumni by name, batch, department..." class="w-full p-3 border rounded mb-6" />
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        </div>
-    </div>
-  </section>
-
-  <section id="networking" class="max-w-5xl mx-auto py-12 px-6 fade-in">
-    <h3 class="text-2xl font-bold mb-6 border-b pb-2">Communication & Networking</h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="bg-white p-6 rounded-xl shadow-lg">
-        <h4 class="font-semibold text-lg">Messaging System</h4>
-        <p class="text-sm mt-2">Send direct messages to alumni and students securely.</p>
-        <button class="mt-4 px-4 py-2 bg-blue-600 text-white rounded">Open Chat</button>
-      </div>
-      <div class="bg-white p-6 rounded-xl shadow-lg">
-        <h4 class="font-semibold text-lg">Discussion Forums</h4>
-        <p class="text-sm mt-2">Join batch-wise or industry-wise groups and discussions.</p>
-        <button class="mt-4 px-4 py-2 bg-green-600 text-white rounded">Browse Forums</button>
+      <input type="text" id="alumni-search" placeholder="Search alumni by name, batch, or department..." class="w-full p-3 border rounded mb-6" />
+      <div id="directory-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <p class="col-span-3 text-center text-gray-500">Type in the search box to find alumni.</p>
       </div>
     </div>
   </section>
 
-  <section id="events" class="bg-gray-100 py-12 px-6 fade-in">
+  <section id="forum" class="bg-gray-100 py-12 px-6 fade-in">
     <div class="max-w-5xl mx-auto">
-      <h3 class="text-2xl font-bold mb-6 border-b pb-2">Events & Networking</h3>
-      <button class="mb-6 bg-blue-600 text-white px-4 py-2 rounded">+ Create Event</button>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-white p-6 rounded-xl shadow-lg">
-          <h4 class="text-xl font-semibold">Annual Reunion 2025</h4>
-          <p class="text-sm mt-2">Join your batchmates for a grand reunion in campus!</p>
-          <button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">RSVP</button>
+      <h3 class="text-2xl font-bold mb-6 border-b pb-2">Discussion Forum</h3>
+      <div class="bg-white p-6 rounded-xl shadow-lg">
+        <div id="messages-container" class="h-96 overflow-y-auto mb-4 p-4 border rounded-lg bg-gray-50 space-y-4">
+          <p class="text-gray-500 text-center">Login to see messages.</p>
         </div>
+        <form id="message-form" class="flex gap-4">
+          <input type="text" id="message-input" placeholder="Login to send a message..." class="flex-grow p-3 border rounded-lg" required disabled />
+          <button type="submit" class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 disabled:bg-gray-400" disabled>Send</button>
+        </form>
       </div>
     </div>
   </section>
-
-  <section id="mentorship" class="max-w-5xl mx-auto py-12 px-6 fade-in">
-    <h3 class="text-2xl font-bold mb-6 border-b pb-2">Mentorship & Career Support</h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="bg-white p-6 rounded-xl shadow-lg">
-        <h4 class="text-xl font-semibold">Become a Mentor</h4>
-        <p class="mt-2 text-sm">Volunteer to guide students and junior alumni in their career paths.</p>
-        <button class="mt-4 bg-green-600 text-white px-4 py-2 rounded">Sign Up</button>
-      </div>
-    </div>
-  </section>
-
-  <section id="donations" class="bg-gray-100 py-12 px-6 fade-in">
-    <div class="max-w-5xl mx-auto">
-      <h3 class="text-2xl font-bold mb-6 border-b pb-2">Fundraising & Donations</h3>
-      <div class="bg-white p-6 rounded-xl shadow-lg">
-        <p class="text-sm">Support your alma mater’s growth. Transparent reports of all contributions.</p>
-        <button class="mt-4 bg-purple-600 text-white px-6 py-2 rounded-lg">Donate Now</button>
-      </div>
-    </div>
-  </section>
-
+  
   <footer class="text-center py-6 bg-blue-600 text-white fade-in">
     <p>&copy; 2025 Alumni Connect | Built with ❤️ for SIH</p>
   </footer>
@@ -300,52 +242,9 @@
     const { createClient } = supabase;
     const _supabase = createClient(supabaseUrl, supabaseKey);
 
-    // ✨ ADDED: Store all alumni data here
-    let allAlumniData = [];
-
-    // --- 2. RENDER & LOAD ALUMNI ---
-    
-    // ✨ NEW: Function to display alumni cards
-    function renderAlumni(alumniList) {
-      const container = document.querySelector('#directory .grid');
-      container.innerHTML = ''; 
-
-      if (alumniList.length === 0) {
-        container.innerHTML = `<p class="col-span-3 text-center text-gray-500">No alumni found.</p>`;
-        return;
-      }
-
-      alumniList.forEach(alumni => {
-        container.innerHTML += `
-          <div class="bg-white p-6 rounded-xl shadow-lg">
-            <img src="https://via.placeholder.com/100" alt="profile" class="w-20 h-20 rounded-full mb-3" />
-            <h4 class="text-lg font-semibold">${alumni.Name}</h4>
-            <p class="text-sm text-gray-500">Batch: ${alumni.Batch || 'N/A'} | Dept: ${alumni.Department || 'N/A'}</p>
-            <p class="text-sm mt-2">${alumni.Role || 'Role not specified'} @ ${alumni.Company || 'Company not specified'}</p>
-          </div>
-        `;
-      });
-    }
-
-    // ✨ UPDATED: loadAlumni now fetches and stores data, then renders it
-    async function loadAlumni() {
-      const { data, error } = await _supabase
-        .from('alumni')
-        .select('*');
-
-      if (error) {
-        console.error('Error loading alumni:', error);
-        return;
-      }
-      
-      allAlumniData = data; // Store the fetched data
-      renderAlumni(allAlumniData); // Render the full list initially
-    }
-    
-    // --- 3. HANDLE ALUMNI REGISTRATION ---
+    // --- 2. ALUMNI REGISTRATION ---
     document.getElementById('alumni-form').addEventListener('submit', async function(e) {
       e.preventDefault();
-
       const formData = {
         Name: document.getElementById('alumni-name').value,
         Email: document.getElementById('alumni-email').value,
@@ -357,37 +256,77 @@
         Bio: document.getElementById('alumni-bio').value,
       };
 
-      const { data, error } = await _supabase
-        .from('alumni')
-        .insert([formData]);
-
+      const { data, error } = await _supabase.from('alumni').insert([formData]);
       if (error) {
         console.error('Insert error:', error);
-        alert('Failed to register alumni. Please check the console for details.');
+        alert('Failed to register alumni. Check the console and your Supabase permissions.');
       } else {
         alert('Alumni registered successfully!');
         document.getElementById('alumni-form').reset();
-        loadAlumni(); // Reload all alumni data, including the new entry
       }
     });
-    
-    // ✨ NEW: SEARCH FUNCTIONALITY ---
-    const searchInput = document.getElementById('alumni-search');
-    searchInput.addEventListener('input', (e) => {
-        const searchTerm = e.target.value.toLowerCase();
-        
-        const filteredAlumni = allAlumniData.filter(alumni => {
-            const name = alumni.Name ? alumni.Name.toLowerCase() : '';
-            const batch = alumni.Batch ? alumni.Batch.toString().toLowerCase() : '';
-            const dept = alumni.Department ? alumni.Department.toLowerCase() : '';
 
-            return name.includes(searchTerm) || batch.includes(searchTerm) || dept.includes(searchTerm);
+    // --- 3. ALUMNI DIRECTORY (BACKEND-POWERED SEARCH) ---
+    function renderAlumni(alumniList) {
+        const container = document.getElementById('directory-grid');
+        container.innerHTML = '';
+        if (alumniList.length === 0) {
+            container.innerHTML = `<p class="col-span-3 text-center text-gray-500">No alumni found.</p>`;
+            return;
+        }
+        alumniList.forEach(alumni => {
+            container.innerHTML += `
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <img src="https://via.placeholder.com/100" alt="profile" class="w-20 h-20 rounded-full mb-3" />
+                    <h4 class="text-lg font-semibold">${alumni.Name}</h4>
+                    <p class="text-sm text-gray-500">Batch: ${alumni.Batch || 'N/A'} | Dept: ${alumni.Department || 'N/A'}</p>
+                    <p class="text-sm mt-2">${alumni.Role || 'N/A'} @ ${alumni.Company || 'N/A'}</p>
+                </div>
+            `;
         });
-        
-        renderAlumni(filteredAlumni);
+    }
+
+    async function searchAlumni(searchTerm) {
+        if (!searchTerm) {
+            document.getElementById('directory-grid').innerHTML = `<p class="col-span-3 text-center text-gray-500">Type in the search box to find alumni.</p>`;
+            return;
+        }
+        const { data, error } = await _supabase
+            .from('alumni')
+            .select('*')
+            .or(`Name.ilike.%${searchTerm}%,Batch.ilike.%${searchTerm}%,Department.ilike.%${searchTerm}%`);
+        if (error) { console.error('Search error:', error); return; }
+        renderAlumni(data);
+    }
+    
+    function debounce(func, delay) {
+        let timeout;
+        return function(...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), delay);
+        };
+    }
+
+    document.getElementById('alumni-search').addEventListener('input', debounce((e) => {
+        searchAlumni(e.target.value.trim());
+    }, 300));
+
+    // --- 4. MESSAGING & FORUM (FRONTEND SHELL) ---
+    const messageForm = document.getElementById('message-form');
+    messageForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const messageInput = document.getElementById('message-input');
+        const messageText = messageInput.value.trim();
+
+        if(messageText) {
+            // --- Supabase logic to send message will go here ---
+            console.log('Sending message:', messageText);
+            alert('This form is not connected to the database yet. We need to set up user logins first.');
+            messageInput.value = '';
+        }
     });
 
-    // --- 4. DARK MODE & SCROLL ANIMATION ---
+    // --- 5. DARK MODE & SCROLL ANIMATION ---
     const toggle = document.getElementById('darkModeToggle');
     const body = document.body;
     toggle.addEventListener('click', () => {
@@ -404,10 +343,7 @@
       });
     }, { threshold: 0.1 });
     fadeElems.forEach(el => observer.observe(el));
-
-    // --- 5. INITIALIZE PAGE ---
-    document.addEventListener('DOMContentLoaded', loadAlumni);
+    
   </script>
-
 </body>
 </html>
