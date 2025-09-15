@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Alumni Connect Platform</title>
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://*.supabase.co;">
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.tailwindcss.com"></script>
@@ -276,11 +275,11 @@
             <div class="w-1/3 border p-3 rounded">
               <input id="chatUserSearch" placeholder="Search alumni to chat..." class="w-full p-2 border rounded mb-3" />
               <div id="chatUserList" class="space-y-2 max-h-56 overflow-y-auto">
-                </div>
+              </div>
             </div>
             <div class="w-2/3 border p-3 rounded flex flex-col">
               <div id="chatMessages" class="chat-container mb-3 flex flex-col">
-                </div>
+              </div>
               <div class="flex gap-2">
                 <input id="chatMessageInput" placeholder="Type a message..." class="flex-1 p-2 border rounded" />
                 <button id="sendChatBtn" class="px-4 py-2 bg-blue-600 text-white rounded">Send</button>
@@ -371,8 +370,6 @@
     const { createClient } = supabase;
     const _supabase = createClient(supabaseUrl, supabaseKey);
 
-
-
     // --- 2. LOAD ALUMNI DIRECTORY ---
     async function loadAlumni() {
       const { data, error } = await _supabase
@@ -385,7 +382,7 @@
       }
 
       const container = document.querySelector('#directory .grid');
-      container.innerHTML = ''; // Clear existing content
+      container.innerHTML = ''; 
 
       data.forEach(alumni => {
         container.innerHTML += `
@@ -399,13 +396,13 @@
       });
     }
 
-
-
     // --- 3. HANDLE ALUMNI REGISTRATION ---
+    // THIS IS THE JAVASCRIPT CODE YOU MENTIONED
     document.getElementById('alumni-form').addEventListener('submit', async function(e) {
       e.preventDefault();
 
-      // Reliably get data using IDs
+      // MODIFIED: 'skills' and 'bio' removed from the data object
+      // MODIFIED: 'location' added to match the form
       const formData = {
         name: document.getElementById('alumni-name').value,
         email: document.getElementById('alumni-email').value,
@@ -425,12 +422,10 @@
         alert('Failed to register alumni. Please check the console for details.');
       } else {
         alert('Alumni registered successfully!');
-        document.getElementById('alumni-form').reset(); // Clear the form
-        loadAlumni(); // Reload the directory with the new entry
+        document.getElementById('alumni-form').reset(); 
+        loadAlumni(); 
       }
     });
-
-
 
     // --- 4. DARK MODE & SCROLL ANIMATION ---
     const toggle = document.getElementById('darkModeToggle');
@@ -450,44 +445,21 @@
     }, { threshold: 0.1 });
     fadeElems.forEach(el => observer.observe(el));
 
-
-
     // --- 5. INITIALIZE PAGE ---
     document.addEventListener('DOMContentLoaded', loadAlumni);
   </script>
 
   <script>
-    // ========== NOTES ==========
-    // I DID NOT MODIFY any of your original code above.
-    // The code below *adds* frontend functionality:
-    //  - Search-only directory (no bulk listing)
-    //  - Auth (signup / login / logout) UI & flows
-    //  - Messaging UI (frontend) + realtime subscriptions (if messages table exists)
-    //  - Forum UI (frontend) — minimal posting behavior
-    //
-    // After you confirm UI, we'll add necessary DB tables and RLS policies.
-    // ===========================
-
-    // reuse the same supabase client _supabase from original script
-    // (available as a global const since original script declared it)
-
-    // SAFETY: If _supabase wasn't created previously for some reason, create it.
     if (typeof _supabase === 'undefined') {
       const { createClient } = supabase;
       window._supabase = createClient(supabaseUrl, supabaseKey);
     }
 
-    // --- UTILS ---
-    function el(selector) { return document.querySelector(selector); }
-    function els(selector) { return Array.from(document.querySelectorAll(selector)); }
-
-    // connect directory search input (we kept the original input markup unchanged)
     const directorySearchInput = document.querySelector('#directory input[type="text"]');
     const directoryGrid = document.querySelector('#directory .grid');
     const directorySearchBtn = document.getElementById('directorySearchBtn');
     const clearSearchBtn = document.getElementById('clearSearchBtn');
 
-    // Show human-friendly container for results (unhide grid when showing results)
     function showDirectoryResults(cardsHtml) {
       directoryGrid.style.display = 'grid';
       directoryGrid.innerHTML = cardsHtml || '<div class="col-span-3 bg-white p-6 rounded-xl shadow-lg">No results found.</div>';
@@ -497,10 +469,8 @@
       directoryGrid.innerHTML = '';
     }
 
-    // Default: hide directory results to prevent mass exposure
     hideDirectoryResults();
 
-    // Multi-field search: search name, batch, dept, company, skills using ilike
     async function searchAlumni(query) {
       if (!query || query.trim().length === 0) {
         alert('Enter a search term (name, batch, department, company or location).');
@@ -508,13 +478,12 @@
       }
       const q = query.trim();
 
-      // Compose OR filter using ilike on several columns
-      // Note: this requires your Supabase DB to allow public read for this query or proper RLS for the logged-in user.
-      // We'll query only requested columns to minimize exposure.
+      // MODIFIED: Selects 'location' and removes 'skills' and 'bio'
       const { data, error } = await _supabase
         .from('alumni')
         .select('id, name, batch, dept, role, company, location, email')
         .or(
+          // MODIFIED: Searches 'location' and removes 'skills'
           `name.ilike.%${q}%,batch.ilike.%${q}%,dept.ilike.%${q}%,company.ilike.%${q}%,location.ilike.%${q}%`
         )
         .limit(50);
@@ -530,6 +499,7 @@
         return;
       }
 
+      // MODIFIED: Displays 'location' and removes 'skills' and 'bio'
       const cards = data.map(alumni => `
         <div class="bg-white p-6 rounded-xl shadow-lg">
           <img src="https://via.placeholder.com/100" alt="profile" class="w-20 h-20 rounded-full mb-3" />
@@ -546,7 +516,6 @@
 
       showDirectoryResults(cards);
 
-      // attach click handlers to newly created buttons
       document.querySelectorAll('.openProfileBtn').forEach(btn => {
         btn.addEventListener('click', async (ev) => {
           const id = btn.getAttribute('data-id');
@@ -562,7 +531,6 @@
 
     }
 
-    // small HTML escape helper
     function escapeHtml(str) {
       if (!str) return '';
       return String(str)
@@ -588,14 +556,8 @@
       hideDirectoryResults();
     });
 
-
-    // -------------------
-    // Auth UI + Flows
-    // -------------------
     const openAuthBtn = document.getElementById('openAuthBtn');
     const authStatusEl = document.getElementById('auth-status');
-
-    // Build an auth modal (simple)
     const authModalHtml = `
       <div id="authOverlay" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-60 hidden">
         <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl p-6">
@@ -618,7 +580,6 @@
               <button id="magicLinkBtn" class="w-full mt-2 bg-gray-200 text-gray-800 py-2 rounded">Send magic link</button>
             </div>
           </div>
-          <div class="mt-4 text-sm text-gray-600">Note: You already enabled Supabase login — this UI uses the same credentials. After sign-in we'll show your account in the top-right.</div>
         </div>
       </div>
     `;
@@ -628,7 +589,6 @@
     document.getElementById('closeAuth').addEventListener('click', () => { authOverlay.classList.add('hidden'); });
     openAuthBtn.addEventListener('click', () => { authOverlay.classList.remove('hidden'); });
 
-    // Sign up
     document.getElementById('signupBtn').addEventListener('click', async () => {
       const email = document.getElementById('signupEmail').value;
       const password = document.getElementById('signupPassword').value;
@@ -645,7 +605,6 @@
       refreshAuthState();
     });
 
-    // Sign in
     document.getElementById('signinBtn').addEventListener('click', async () => {
       const email = document.getElementById('signinEmail').value;
       const password = document.getElementById('signinPassword').value;
@@ -662,7 +621,6 @@
       refreshAuthState();
     });
 
-    // Magic link
     document.getElementById('magicLinkBtn').addEventListener('click', async () => {
       const email = document.getElementById('signinEmail').value || document.getElementById('signupEmail').value;
       if (!email) { alert('Enter email for magic link'); return; }
@@ -675,14 +633,12 @@
       alert('Magic link sent to email.');
     });
 
-    // Auth state refresher
     async function refreshAuthState() {
       const { data: { user } } = await _supabase.auth.getUser();
       if (user) {
         authStatusEl.textContent = `Signed in as ${user.email}`;
         authStatusEl.classList.remove('hidden');
         openAuthBtn.textContent = 'Account';
-        // add logout button
         if (!document.getElementById('logoutBtn')) {
           const logoutBtn = document.createElement('button');
           logoutBtn.id = 'logoutBtn';
@@ -703,18 +659,13 @@
       }
     }
 
-    // Call once on load
     (async () => {
-      // subscribe to auth changes (optional)
       _supabase.auth.onAuthStateChange(() => {
         refreshAuthState();
       });
       await refreshAuthState();
     })();
 
-    // -------------------------
-    // Messaging (UI + basic realtime)
-    // -------------------------
     const openChatBtn = document.getElementById('openChatBtn');
     const chatPanel = document.getElementById('chatPanel');
     const chatUserList = document.getElementById('chatUserList');
@@ -730,12 +681,10 @@
     openChatBtn.addEventListener('click', async () => {
       chatPanel.classList.toggle('hidden');
       if (!chatPanel.classList.contains('hidden')) {
-        // fill user list with a small search placeholder (no bulk listing)
         chatUserList.innerHTML = '<div class="text-sm text-gray-600">Search alumni to start a chat</div>';
       }
     });
 
-    // search alumni for chat (re-uses limited search)
     chatUserSearch.addEventListener('keydown', async (e) => {
       if (e.key !== 'Enter') return;
       const q = chatUserSearch.value.trim();
@@ -766,23 +715,18 @@
     async function openChatWithUserId(userId) {
       currentChatUserId = userId;
       chatMessages.innerHTML = '<div class="text-sm text-gray-600">Loading messages...</div>';
-      // fetch messages between current user and this user (if signed in)
-      // Schema assumption (example): messages table has id, from_id, to_id, content, inserted_at
       const { data: authData } = await _supabase.auth.getUser();
       currentUser = authData?.user || null;
 
-      // If not signed-in, still allow sending but advise sign-in
       if (!currentUser) {
         chatMessages.innerHTML = '<div class="text-sm text-yellow-600">You are not signed in. Log in to send messages.</div>';
       }
 
-      // load last 100 messages where (from=current AND to=other) OR (from=other AND to=current)
-      // If currentUser missing, just show messages where to_id == userId (public) — this is a placeholder approach
       let messagesQuery;
       if (currentUser) {
         messagesQuery = _supabase
           .from('messages')
-          .select('id, from_id, to_id, content, inserted_at, from_user:users(id, email)') // optional join
+          .select('id, from_id, to_id, content, inserted_at, from_user:users(id, email)') 
           .or(`and(from_id.eq.${currentUser.id},to_id.eq.${userId}),and(from_id.eq.${userId},to_id.eq.${currentUser.id})`)
           .order('inserted_at', { ascending: true })
           .limit(200);
@@ -790,7 +734,7 @@
         messagesQuery = _supabase
           .from('messages')
           .select('id, from_id, to_id, content, inserted_at')
-          .or(`to_id.eq.${userId}`) // best-effort read
+          .or(`to_id.eq.${userId}`) 
           .order('inserted_at', { ascending: true })
           .limit(200);
       }
@@ -804,8 +748,6 @@
 
       renderMessages(msgs || []);
 
-      // set up realtime subscription for new messages if table exists
-      // unsubscribe existing
       if (messagesSubscriptionRefs.length) {
         messagesSubscriptionRefs.forEach(r => _supabase.removeSubscription?.(r));
         messagesSubscriptionRefs.length = 0;
@@ -815,7 +757,6 @@
         const channel = _supabase.channel(`messages:private:${userId}`).on('postgres_changes',
           { event: 'INSERT', schema: 'public', table: 'messages' },
           (payload) => {
-            // display only messages relevant to this conversation
             const newMsg = payload.new;
             if (!newMsg) return;
             const relevant = (newMsg.from_id === currentUser?.id && newMsg.to_id === parseInt(userId)) ||
@@ -828,7 +769,6 @@
         channel.subscribe();
         messagesSubscriptionRefs.push(channel);
       } catch (e) {
-        // fallback: older syntax (for older supabase-js versions) — attempt on method
         try {
           const sub = _supabase
             .from(`messages`)
@@ -869,7 +809,6 @@
       chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
-    // send message
     sendChatBtn.addEventListener('click', async () => {
       const content = chatMessageInput.value.trim();
       if (!content) return;
@@ -882,7 +821,6 @@
         return;
       }
 
-      // Insert into messages table
       const payload = {
         from_id: me.id,
         to_id: currentChatUserId,
@@ -896,14 +834,9 @@
         return;
       }
       chatMessageInput.value = '';
-      // message will appear via realtime subscription (or we append locally)
       appendMessageToChat({ ...payload, inserted_at: new Date().toISOString() }, 'me');
     });
 
-
-    // -------------------------
-    // Forums (UI + placeholder posting)
-    // -------------------------
     const openForumsBtn = document.getElementById('openForumsBtn');
     const forumPanel = document.getElementById('forumPanel');
     const forumList = document.getElementById('forumList');
@@ -915,11 +848,9 @@
       forumPanel.classList.toggle('hidden');
     });
 
-    // clicking forum category shows placeholder threads (frontend-only)
     forumList.querySelectorAll('li').forEach(li => {
       li.addEventListener('click', async () => {
         const forum = li.getAttribute('data-forum');
-        // Try to load threads from supabase 'forum_threads' table if exists
         const { data, error } = await _supabase
           .from('forum_threads')
           .select('id, title, body, inserted_at, author_id')
@@ -928,7 +859,6 @@
           .limit(50);
 
         if (error) {
-          // fallback: show placeholder content
           forumThreads.innerHTML = `
             <div class="p-3 border rounded">Could not load real threads (table may not exist). Showing examples:</div>
             <div class="p-3 border rounded">Welcome to the ${escapeHtml(forum)} forum! (example thread)</div>
@@ -951,12 +881,11 @@
       });
     });
 
-    // Post thread (frontend placeholder OR insert if table exists)
     postThreadBtn.addEventListener('click', async () => {
       const body = newThreadInput.value.trim();
       if (!body) { alert('Enter thread content'); return; }
 
-      const forumEl = forumList.querySelector('li'); // first forum selected fallback
+      const forumEl = forumList.querySelector('li'); 
       const forum = forumEl ? forumEl.getAttribute('data-forum') : 'general';
 
       const { data: authData } = await _supabase.auth.getUser();
@@ -966,12 +895,10 @@
         return;
       }
 
-      // attempt insert
       const payload = { forum, title: body.slice(0, 60), body, author_id: me.id };
       const { data, error } = await _supabase.from('forum_threads').insert([payload]);
       if (error) {
         console.warn('Failed to insert forum thread (table may not exist):', error);
-        // fallback: add to UI only
         const node = document.createElement('div');
         node.className = 'p-3 border rounded';
         node.innerHTML = `<div class="font-semibold">[Local] ${escapeHtml(payload.title)}</div><div class="text-sm">${escapeHtml(payload.body)}</div>`;
@@ -980,35 +907,18 @@
         alert('Thread posted locally (server insert failed).');
         return;
       }
-      // success
+      
       newThreadInput.value = '';
       alert('Thread posted!');
-      // refresh view for the current forum (you can click the forum again to refresh)
     });
 
-
-    // -------------------------
-    // Helper: prevent original loadAlumni from showing content inadvertently
-    // -------------------------
-    // NOTE: your original script added a DOMContentLoaded event that calls loadAlumni.
-    // That would fetch all alumni and show them. We hid the directory grid by default
-    // using CSS so the original listing won't be visible. If you want to completely
-    // disable that original fetch you can remove the listener server-side or comment it.
-    // For now we protect by hiding and providing only search-based display.
-
-    // -------------------------
-    // Small UX improvements
-    // -------------------------
-    // When clicking "View / Message" from search results, ensure networking panel opens:
     function openChatWithUserIdFromSearch(userId) {
       chatPanel.classList.remove('hidden');
       openChatWithUserId(userId);
     }
 
-    // Expose function for buttons generated earlier
     window.openChatWithUserId = openChatWithUserIdFromSearch;
 
-    // keep auth state updated at load
     document.addEventListener('DOMContentLoaded', () => {
       refreshAuthState();
     });
