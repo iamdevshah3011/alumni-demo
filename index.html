@@ -232,7 +232,7 @@
   <section id="directory" class="bg-gray-100 py-12 px-6 fade-in">
     <div class="max-w-5xl mx-auto">
       <h3 class="text-2xl font-bold mb-6 border-b pb-2">Centralized Alumni Directory</h3>
-      <input type="text" placeholder="Search alumni by name, batch, department..." class="w-full p-3 border rounded mb-6" />
+      <input type="text" id="alumni-search" placeholder="Search alumni by name, batch, department..." class="w-full p-3 border rounded mb-6" />
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         </div>
     </div>
@@ -300,22 +300,22 @@
     const { createClient } = supabase;
     const _supabase = createClient(supabaseUrl, supabaseKey);
 
-    // --- 2. LOAD ALUMNI DIRECTORY ---
-    async function loadAlumni() {
-      const { data, error } = await _supabase
-        .from('alumni')
-        .select('*');
+    // ✨ ADDED: Store all alumni data here
+    let allAlumniData = [];
 
-      if (error) {
-        console.error('Error loading alumni:', error);
-        return;
-      }
-
+    // --- 2. RENDER & LOAD ALUMNI ---
+    
+    // ✨ NEW: Function to display alumni cards
+    function renderAlumni(alumniList) {
       const container = document.querySelector('#directory .grid');
       container.innerHTML = ''; 
 
-      data.forEach(alumni => {
-        // ✨ CORRECTED: Using capitalized property names to match your database columns
+      if (alumniList.length === 0) {
+        container.innerHTML = `<p class="col-span-3 text-center text-gray-500">No alumni found.</p>`;
+        return;
+      }
+
+      alumniList.forEach(alumni => {
         container.innerHTML += `
           <div class="bg-white p-6 rounded-xl shadow-lg">
             <img src="https://via.placeholder.com/100" alt="profile" class="w-20 h-20 rounded-full mb-3" />
@@ -327,11 +327,25 @@
       });
     }
 
+    // ✨ UPDATED: loadAlumni now fetches and stores data, then renders it
+    async function loadAlumni() {
+      const { data, error } = await _supabase
+        .from('alumni')
+        .select('*');
+
+      if (error) {
+        console.error('Error loading alumni:', error);
+        return;
+      }
+      
+      allAlumniData = data; // Store the fetched data
+      renderAlumni(allAlumniData); // Render the full list initially
+    }
+    
     // --- 3. HANDLE ALUMNI REGISTRATION ---
     document.getElementById('alumni-form').addEventListener('submit', async function(e) {
       e.preventDefault();
 
-      // ✨ CORRECTED: Using capitalized keys to match your database columns
       const formData = {
         Name: document.getElementById('alumni-name').value,
         Email: document.getElementById('alumni-email').value,
@@ -353,8 +367,24 @@
       } else {
         alert('Alumni registered successfully!');
         document.getElementById('alumni-form').reset();
-        loadAlumni();
+        loadAlumni(); // Reload all alumni data, including the new entry
       }
+    });
+    
+    // ✨ NEW: SEARCH FUNCTIONALITY ---
+    const searchInput = document.getElementById('alumni-search');
+    searchInput.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+        
+        const filteredAlumni = allAlumniData.filter(alumni => {
+            const name = alumni.Name ? alumni.Name.toLowerCase() : '';
+            const batch = alumni.Batch ? alumni.Batch.toString().toLowerCase() : '';
+            const dept = alumni.Department ? alumni.Department.toLowerCase() : '';
+
+            return name.includes(searchTerm) || batch.includes(searchTerm) || dept.includes(searchTerm);
+        });
+        
+        renderAlumni(filteredAlumni);
     });
 
     // --- 4. DARK MODE & SCROLL ANIMATION ---
