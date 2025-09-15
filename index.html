@@ -12,7 +12,7 @@
 
   <style>
     body { font-family: 'Inter', sans-serif; }
-    /* All other CSS styles remain the same for a consistent look and feel */
+    /* All Original CSS is preserved for a consistent look and feel */
     body.dark-mode { background-color: #121212; color: #e0e0e0; }
     body.dark-mode a { color: #9ad1ff; }
     body.dark-mode .navbar { background-color: #1f1f1f !important; }
@@ -20,7 +20,10 @@
     body.dark-mode .bg-white { background-color: #1f1f1f !important; }
     body.dark-mode #home { background-color: #2d3748; }
     body.dark-mode #home h2, body.dark-mode #home p { color: #e0e0e0; }
-    body.dark-mode #directory, body.dark-mode #forum, body.dark-mode #events, body.dark-mode #donations { background-color: #1a1a1a; }
+    body.dark-mode #directory { background-color: #1a1a1a; }
+    body.dark-mode #forum { background-color: #1a1a1a; }
+    body.dark-mode #events { background-color: #222222; }
+    body.dark-mode #donations { background-color: #1a1a1a; }
     * { transition: all 0.3s ease; }
     .shadow-lg:hover { transform: translateY(-5px); }
     .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
@@ -46,28 +49,30 @@
       <a href="#directory" class="hover:underline">Directory</a>
       <a href="#forum" class="hover:underline">Forum</a>
       <a href="#events" class="hover:underline">Events</a>
+      <a href="#mentorship" class="hover:underline">Mentorship</a>
+      <a href="#donations" class="hover:underline">Donations</a>
     </div>
     <div>
-      <div id="logged-out-view">
-        <button id="login-button" class="px-4 py-2 bg-gray-900 rounded-lg hover:bg-gray-700 text-sm">Login</button>
-      </div>
-      <div id="logged-in-view" class="hidden items-center">
-        <span id="user-email" class="mr-4 text-sm"></span>
-        <button id="logout-button" class="px-4 py-2 bg-red-600 rounded-lg hover:bg-red-700 text-sm">Logout</button>
-      </div>
+        <div id="logged-out-view">
+            <button id="login-button" class="px-4 py-2 bg-gray-900 rounded-lg hover:bg-gray-700 text-sm">Login</button>
+        </div>
+        <div id="logged-in-view" class="hidden items-center flex">
+            <span id="user-email" class="mr-4 text-sm"></span>
+            <button id="logout-button" class="px-4 py-2 bg-red-600 rounded-lg hover:bg-red-700 text-sm">Logout</button>
+        </div>
     </div>
   </nav>
 
   <section id="home" class="bg-gray-200 text-gray-800 fade-in">
     <div id="hero-container" class="max-w-7xl mx-auto px-6 py-16">
-      <div id="hero-text-content" class="text-center md:text-left md:w-1/2 md:pr-12">
-        <h2 class="text-4xl lg:text-5xl font-bold mb-4">Stay Connected. Empower the Future.</h2>
-        <p class="text-lg mb-6">Centralized alumni management with networking, mentorship, events, and career support.</p>
-        <a href="#alumni" class="inline-block px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 transform hover:scale-105">Get Started</a>
-      </div>
-      <div id="animated-logo-container" class="w-full md:w-1/2 mt-12 md:mt-0">
-        <img src="assets/logo.jpeg" alt="Company Logo" id="company-logo" />
-      </div>
+        <div id="hero-text-content" class="text-center md:text-left md:w-1/2 md:pr-12">
+            <h2 class="text-4xl lg:text-5xl font-bold mb-4">Stay Connected. Empower the Future.</h2>
+            <p class="text-lg mb-6">Centralized alumni management with networking, mentorship, events, and career support.</p>
+            <a href="#alumni" class="inline-block px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 transform hover:scale-105">Get Started</a>
+        </div>
+        <div id="animated-logo-container" class="w-full md:w-1/2 mt-12 md:mt-0">
+            <img src="assets/logo.jpeg" alt="Company Logo" id="company-logo" />
+        </div>
     </div>
   </section>
 
@@ -94,7 +99,7 @@
     </div>
   </section>
   
-  <section id="forum" class="bg-gray-50 py-12 px-6 fade-in">
+  <section id="forum" class="py-12 px-6 fade-in">
     <div class="max-w-5xl mx-auto">
       <h3 class="text-2xl font-bold mb-6 border-b pb-2">Discussion Forum</h3>
       <div class="bg-white p-6 rounded-xl shadow-lg">
@@ -112,8 +117,33 @@
   <section id="events" class="bg-gray-100 py-12 px-6 fade-in">
     <div class="max-w-5xl mx-auto">
       <h3 class="text-2xl font-bold mb-6 border-b pb-2">Events</h3>
-      <div id="events-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <p class="col-span-3 text-center text-gray-500">Loading events...</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-white p-6 rounded-xl shadow-lg">
+            <h4 class="text-xl font-semibold">Annual Reunion 2025</h4>
+            <p class="text-sm mt-2">Join your batchmates for a grand reunion in campus!</p>
+            <button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">RSVP</button>
+          </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="mentorship" class="max-w-5xl mx-auto py-12 px-6 fade-in">
+    <h3 class="text-2xl font-bold mb-6 border-b pb-2">Mentorship & Career Support</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white p-6 rounded-xl shadow-lg">
+          <h4 class="text-xl font-semibold">Become a Mentor</h4>
+          <p class="mt-2 text-sm">Volunteer to guide students and junior alumni in their career paths.</p>
+          <button class="mt-4 bg-green-600 text-white px-4 py-2 rounded">Sign Up</button>
+        </div>
+    </div>
+  </section>
+
+  <section id="donations" class="bg-gray-100 py-12 px-6 fade-in">
+    <div class="max-w-5xl mx-auto">
+      <h3 class="text-2xl font-bold mb-6 border-b pb-2">Fundraising & Donations</h3>
+      <div class="bg-white p-6 rounded-xl shadow-lg">
+        <p class="text-sm">Support your alma mater’s growth.</p>
+        <button class="mt-4 bg-purple-600 text-white px-6 py-2 rounded-lg">Donate Now</button>
       </div>
     </div>
   </section>
@@ -142,13 +172,13 @@
   </footer>
 
   <script>
-    // --- SUPABASE CLIENT ---
+    // --- 1. SUPABASE CLIENT ---
     const supabaseUrl = 'https://oriswzmkjvyesqlrpbya.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9yaXN3em1ranZ5ZXNxbHJwYnlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc5MzA4OTMsImV4cCI6MjA3MzUwNjg5M30.YH3JEbMDL0r8FvmQ-KJtrKCVmJo5RslUKq90FkICvAE';
     const { createClient } = supabase;
     const _supabase = createClient(supabaseUrl, supabaseKey);
 
-    // --- UI SELECTORS ---
+    // --- 2. UI SELECTORS ---
     const loggedOutView = document.getElementById('logged-out-view');
     const loggedInView = document.getElementById('logged-in-view');
     const userEmailEl = document.getElementById('user-email');
@@ -161,51 +191,50 @@
     const showLogin = document.getElementById('show-login');
     const messageInput = document.getElementById('message-input');
     const messageSendButton = document.querySelector('#message-form button');
+    const darkModeToggle = document.getElementById('darkModeToggle');
 
-    // --- AUTH MODAL LOGIC ---
+    // --- 3. AUTH MODAL & LOGIN/LOGOUT LOGIC ---
     loginButton.addEventListener('click', () => authModal.classList.remove('hidden'));
-    authModal.addEventListener('click', (e) => { if(e.target === authModal) { authModal.classList.add('hidden'); }});
+    authModal.addEventListener('click', (e) => { if (e.target === authModal) { authModal.classList.add('hidden'); } });
     showSignup.addEventListener('click', (e) => { e.preventDefault(); loginForm.classList.add('hidden'); signupForm.classList.remove('hidden'); });
     showLogin.addEventListener('click', (e) => { e.preventDefault(); signupForm.classList.add('hidden'); loginForm.classList.remove('hidden'); });
 
-    // --- AUTHENTICATION ---
     signupForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const { error } = await _supabase.auth.signUp({ email: signup-email.value, password: signup-password.value });
-        if (error) alert('Error: ' + error.message);
-        else { alert('Signup successful! Please check your email for a confirmation link.'); showLogin.click(); }
+      e.preventDefault();
+      const { error } = await _supabase.auth.signUp({ email: document.getElementById('signup-email').value, password: document.getElementById('signup-password').value });
+      if (error) { alert('Error: ' + error.message); }
+      else { alert('Signup successful! Please check your email to confirm your account.'); showLogin.click(); }
     });
 
     loginForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const { error } = await _supabase.auth.signInWithPassword({ email: login-email.value, password: login-password.value });
-        if (error) alert('Error: ' + error.message);
+      e.preventDefault();
+      const { error } = await _supabase.auth.signInWithPassword({ email: document.getElementById('login-email').value, password: document.getElementById('login-password').value });
+      if (error) { alert('Error: ' + error.message); }
     });
 
     logoutButton.addEventListener('click', async () => await _supabase.auth.signOut());
-    
-    // --- SESSION & UI MANAGEMENT ---
+
+    // --- 4. SESSION MANAGEMENT & UI UPDATES ---
     _supabase.auth.onAuthStateChange((event, session) => {
-        if (session && session.user) {
-            loggedInView.classList.remove('hidden');
-            loggedOutView.classList.add('hidden');
-            userEmailEl.textContent = session.user.email;
-            authModal.classList.add('hidden');
-            messageInput.disabled = false;
-            messageSendButton.disabled = false;
-            messageInput.placeholder = "Type your message...";
-            // loadMessages(); // Will be enabled when chat is fully built
-        } else {
-            loggedOutView.classList.remove('hidden');
-            loggedInView.classList.add('hidden');
-            userEmailEl.textContent = '';
-            messageInput.disabled = true;
-            messageSendButton.disabled = true;
-            messageInput.placeholder = "Login to send a message...";
-        }
+      if (session && session.user) {
+        loggedInView.classList.remove('hidden');
+        loggedOutView.classList.add('hidden');
+        userEmailEl.textContent = session.user.email;
+        authModal.classList.add('hidden');
+        messageInput.disabled = false;
+        messageSendButton.disabled = false;
+        messageInput.placeholder = "Type your message...";
+      } else {
+        loggedOutView.classList.remove('hidden');
+        loggedInView.classList.add('hidden');
+        userEmailEl.textContent = '';
+        messageInput.disabled = true;
+        messageSendButton.disabled = true;
+        messageInput.placeholder = "Login to send a message...";
+      }
     });
 
-    // --- ALUMNI REGISTRATION ---
+    // --- 5. ALUMNI REGISTRATION ---
     document.getElementById('alumni-form').addEventListener('submit', async function(e) {
       e.preventDefault();
       const formData = {
@@ -218,28 +247,37 @@
       else { alert('Alumni registered successfully!'); this.reset(); }
     });
 
-    // --- ALUMNI DIRECTORY (BACKEND SEARCH) ---
+    // --- 6. ALUMNI DIRECTORY (BACKEND SEARCH) ---
     function renderAlumni(alumniList) {
-        const container = document.getElementById('directory-grid');
-        container.innerHTML = '';
-        if (alumniList.length === 0) { container.innerHTML = `<p class="col-span-3 text-center text-gray-500">No alumni found.</p>`; return; }
-        alumniList.forEach(alumni => {
-            container.innerHTML += `<div class="bg-white p-6 rounded-xl shadow-lg"><img src="https://via.placeholder.com/100" alt="profile" class="w-20 h-20 rounded-full mb-3" /><h4 class="text-lg font-semibold">${alumni.Name}</h4><p class="text-sm text-gray-500">Batch: ${alumni.Batch || 'N/A'} | Dept: ${alumni.Department || 'N/A'}</p><p class="text-sm mt-2">${alumni.Role || 'N/A'} @ ${alumni.Company || 'N/A'}</p></div>`;
-        });
+      const container = document.getElementById('directory-grid');
+      container.innerHTML = '';
+      if (alumniList.length === 0) { container.innerHTML = `<p class="col-span-3 text-center text-gray-500">No alumni found.</p>`; return; }
+      alumniList.forEach(alumni => {
+        container.innerHTML += `<div class="bg-white p-6 rounded-xl shadow-lg"><img src="https://via.placeholder.com/100" alt="profile" class="w-20 h-20 rounded-full mb-3" /><h4 class="text-lg font-semibold">${alumni.Name}</h4><p class="text-sm text-gray-500">Batch: ${alumni.Batch || 'N/A'} | Dept: ${alumni.Department || 'N/A'}</p><p class="text-sm mt-2">${alumni.Role || 'N/A'} @ ${alumni.Company || 'N/A'}</p></div>`;
+      });
     }
 
     async function searchAlumni(searchTerm) {
-        if (!searchTerm) { document.getElementById('directory-grid').innerHTML = `<p class="col-span-3 text-center text-gray-500">Type in the search box to find alumni.</p>`; return; }
-        const { data, error } = await _supabase.from('alumni').select('*').or(`Name.ilike.%${searchTerm}%,Batch.ilike.%${searchTerm}%,Department.ilike.%${searchTerm}%`);
-        if (error) { console.error('Search error:', error); return; }
-        renderAlumni(data);
+      if (!searchTerm) { document.getElementById('directory-grid').innerHTML = `<p class="col-span-3 text-center text-gray-500">Type in the search box to find alumni.</p>`; return; }
+      const { data, error } = await _supabase.from('alumni').select('*').or(`Name.ilike.%${searchTerm}%,Batch.ilike.%${searchTerm}%,Department.ilike.%${searchTerm}%`);
+      if (error) { console.error('Search error:', error); return; }
+      renderAlumni(data);
     }
     
     function debounce(func, delay) { let timeout; return function(...args) { clearTimeout(timeout); timeout = setTimeout(() => func.apply(this, args), delay); }; }
     document.getElementById('alumni-search').addEventListener('input', debounce((e) => { searchAlumni(e.target.value.trim()); }, 300));
 
-    // --- DARK MODE ---
-    document.getElementById('darkModeToggle').addEventListener('click', () => { document.body.classList.toggle('dark-mode'); });
+    // --- 7. DARK MODE & SCROLL ANIMATIONS ---
+    darkModeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        darkModeToggle.textContent = document.body.classList.contains('dark-mode') ? "☀️ Light Mode" : "🌙 Dark Mode";
+    });
+
+    const fadeElems = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); } });
+    }, { threshold: 0.1 });
+    fadeElems.forEach(el => observer.observe(el));
   </script>
 </body>
 </html>
