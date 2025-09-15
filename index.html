@@ -1,512 +1,594 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Alumni Connect Platform</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Alumni Connect — Full UI</title>
 
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm https://cdn.tailwindcss.com; connect-src 'self' https://*.supabase.co; img-src * data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;">
-
+  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
+    :root { --accent: #4f46e5; }
     body { font-family: 'Inter', sans-serif; }
-
-    /* Dark Mode Styles */
-    body.dark-mode { background-color: #121212; color: #e0e0e0; }
-    body.dark-mode a { color: #9ad1ff; }
-    body.dark-mode .navbar { background-color: #1f1f1f !important; }
-    body.dark-mode input, body.dark-mode textarea { background-color: #1f1f1f; color: #e0e0e0; border-color: #333; }
-    body.dark-mode .bg-white { background-color: #1f1f1f !important; }
-    body.dark-mode #home { background-color: #2d3748; }
-    body.dark-mode #home h2, body.dark-mode #home p { color: #e0e0e0; }
-    body.dark-mode #directory, body.dark-mode #donations { background-color: #1a1a1a; }
-    body.dark-mode #events { background-color: #222222; }
-
-    /* Smooth Transitions Globally */
-    * { transition: all 0.3s ease; }
-
-    /* Card Hover Effect */
-    .shadow-lg:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); }
-    body.dark-mode .shadow-lg:hover { box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); }
-
-    /* Scroll animations */
-    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+    .fade-in { opacity: 0; transform: translateY(12px); transition: all .6s ease; }
     .fade-in.visible { opacity: 1; transform: translateY(0); }
-
-    /* Text Animations for headings */
-    h3 { position: relative; overflow: hidden; }
-    h3::after { content: ''; position: absolute; width: 0; height: 3px; bottom: 0; left: 0; background-color: #4f46e5; transition: width 0.5s ease; }
-    h3:hover::after { width: 100%; }
-
-    /* Improved Input Focus */
-    input:focus, textarea:focus { outline: none; border-color: #4f46e5; box-shadow: 0 0 5px rgba(79, 70, 229, 0.5); }
-
-    /* Hero / holographic animation */
-    #hero-container { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 85vh; overflow: hidden; position: relative; }
-    @media (min-width: 768px) { #hero-container { flex-direction: row; } }
-    #hero-text-content { z-index: 10; }
-    #animated-logo-container { position: relative; perspective: 1500px; display: flex; justify-content: center; align-items: center; }
-    #company-logo { width: 100%; max-width: 350px; height: auto; opacity: 0; transform: rotateY(-45deg) scale(0.5); animation: holographic-reveal 3s forwards 0.5s; }
-    #animated-logo-container::before { content: ''; position: absolute; bottom: 40px; width: 400px; height: 80px; background: radial-gradient(ellipse at center, rgba(79, 70, 229, 0.4) 0%, rgba(79, 70, 229, 0) 70%); border-radius: 50%; transform: rotateX(80deg); animation: projector-glow 4s infinite alternate; }
-    #animated-logo-container::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: #93c5fd; border-radius: 2px; box-shadow: 0 0 10px #93c5fd, 0 0 20px white; animation: scan-lines 4s cubic-bezier(0.23, 1, 0.32, 1) infinite; animation-delay: 3.5s; }
-
-    @keyframes holographic-reveal {
-      0% { opacity: 0; filter: blur(20px); transform: rotateY(-45deg) scale(0.5) translateY(100px); }
-      50% { opacity: 0.8; filter: blur(8px); }
-      100% { opacity: 1; filter: blur(0); transform: rotateY(0deg) scale(1) translateY(0); }
-    }
-    @keyframes projector-glow {
-      from { opacity: 0.6; transform: rotateX(80deg) scale(0.9); }
-      to { opacity: 1; transform: rotateX(80deg) scale(1.1); }
-    }
-    @keyframes scan-lines {
-      0% { transform: translateY(0); opacity: 0; }
-      5% { opacity: 1; }
-      95% { opacity: 1; }
-      100% { transform: translateY(350px); opacity: 0; }
-    }
-
-    #directory .grid { display: none; }
-    .chat-container { height: 400px; overflow-y: auto; }
-    .message { padding: 0.5rem 0.75rem; border-radius: 0.5rem; margin-bottom: 0.5rem; display: inline-block; max-width: 85%; }
-    .message.me { background-color: #e0f2fe; align-self: flex-end; }
-    .message.them { background-color: #f1f5f9; align-self: flex-start; }
-    
-    @media (max-width: 768px) {
-        .navbar .hidden.md\:flex { display: none !important; }
-    }
+    /* hero holographic styles */
+    #animated-logo-container { perspective: 1500px; position: relative; display:flex; align-items:center; justify-content:center; }
+    #company-logo { width:100%; max-width:360px; transform: rotateY(-45deg) scale(.6); opacity:0; animation: holographic 2.8s forwards .5s; }
+    @keyframes holographic { from { transform: rotateY(-45deg) scale(.6) translateY(80px); opacity:0 } to { transform: rotateY(0) scale(1) translateY(0); opacity:1 } }
+    .message { max-width:85%; padding:.5rem .75rem; border-radius:.5rem; margin:.25rem 0; display:inline-block; }
+    .message.me { background:#e0f2fe; align-self:flex-end; }
+    .message.them { background:#f1f5f9; align-self:flex-start; }
+    /* hide directory grid until search */
+    #directory .grid { display:none; }
+    /* small helpers */
+    .card { background:white; border-radius:1rem; padding:1rem; box-shadow:0 6px 20px rgba(0,0,0,0.06); }
+    @media (min-width: 768px) { #hero { display:flex; gap:2rem; align-items:center; } }
   </style>
 </head>
-<body class="bg-gray-50 text-gray-800 transition-colors duration-300">
+<body class="bg-gray-50 text-gray-900">
 
-  <nav class="navbar flex items-center justify-between p-4 bg-blue-600 text-white shadow-md sticky top-0 z-50">
-    <h1 class="text-2xl font-bold">Alumni Connect</h1>
-    <div class="space-x-6 hidden md:flex">
-      <a href="#home" class="hover:underline">Home</a>
-      <a href="#alumni" class="hover:underline">Alumni</a>
-      <a href="#directory" class="hover:underline">Directory</a>
-      <a href="#networking" class="hover:underline">Networking</a>
-      <a href="#events" class="hover:underline">Events</a>
-      <a href="#mentorship" class="hover:underline">Mentorship</a>
-      <a href="#donations" class="hover:underline">Donations</a>
+  <!-- NAV -->
+  <nav class="navbar sticky top-0 z-50 bg-blue-600 text-white p-4 flex items-center justify-between">
+    <div class="flex items-center gap-4">
+      <div class="text-2xl font-bold">Alumni Connect</div>
     </div>
     <div class="flex items-center gap-4">
-      <div id="auth-status" class="text-sm hidden md:block">Not signed in</div>
-      <button id="openAuthBtn" class="px-3 py-1 bg-white text-blue-600 rounded hover:opacity-90">Sign up / Log in</button>
-      <button id="darkModeToggle" class="px-4 py-2 bg-gray-900 rounded-lg hover:bg-gray-700 text-sm">🌙 Dark Mode</button>
+      <div id="auth-status" class="hidden md:block text-sm">Not signed in</div>
+      <button id="openAuthBtn" class="bg-white text-blue-600 px-3 py-1 rounded">Sign up / Log in</button>
+      <button id="darkModeToggle" class="bg-gray-900 px-3 py-1 rounded text-sm">🌙 Dark Mode</button>
     </div>
   </nav>
 
-  <section id="home" class="bg-gray-200 text-gray-800 fade-in">
-    <div id="hero-container" class="max-w-7xl mx-auto px-6">
-      <div id="hero-text-content" class="text-center md:text-left md:w-1/2 md:pr-12">
-        <h2 class="text-4xl lg:text-5xl font-bold mb-4">Stay Connected. Empower the Future.</h2>
+  <!-- HERO -->
+  <header id="home" class="bg-gray-200 p-10 fade-in">
+    <div id="hero" class="max-w-7xl mx-auto px-6">
+      <div id="hero-text" class="md:w-1/2">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">Stay Connected. Empower the Future.</h1>
         <p class="text-lg mb-6">Centralized alumni management with networking, mentorship, events, and career support.</p>
-        <a href="#alumni" class="inline-block px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 transform hover:scale-105">Get Started</a>
-      </div>
-      <div id="animated-logo-container" class="w-full md:w-1/2 mt-12 md:mt-0">
-        <img src="assets/logo.jpeg" alt="Company Logo" id="company-logo" />
-      </div>
-    </div>
-  </section>
-
-  <section id="alumni" class="max-w-5xl mx-auto py-12 px-6 fade-in">
-    <h3 class="text-2xl font-bold mb-6 border-b pb-2">Alumni Registration & Profiles</h3>
-    <form id="alumni-form" class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 rounded-xl shadow-lg">
-      <input type="text" id="alumni-name" placeholder="Full Name" class="p-3 border rounded" />
-      <input type="email" id="alumni-email" placeholder="Email (Mandatory)" class="p-3 border rounded" />
-      <input type="text" id="alumni-batch" placeholder="Batch" class="p-3 border rounded" />
-      <input type="text" id="alumni-dept" placeholder="Department" class="p-3 border rounded" />
-      <input type="text" id="alumni-role" placeholder="Current Job Title" class="p-3 border rounded" />
-      <input type="text" id="alumni-company" placeholder="Company" class="p-3 border rounded" />
-      <input type="text" id="alumni-location" placeholder="Location (e.g., City, Country)" class="p-3 border rounded" />
-      <input type="file" id="alumni-photo" class="p-3 border rounded col-span-2" accept="image/*" />
-      <button id="alumni-submit" type="submit" class="col-span-2 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">Register</button>
-    </form>
-  </section>
-
-  <section id="directory" class="bg-gray-100 py-12 px-6 fade-in">
-    <div class="max-w-5xl mx-auto">
-      <h3 class="text-2xl font-bold mb-6 border-b pb-2">Centralized Alumni Directory</h3>
-      <input id="directorySearchInput" type="text" placeholder="Search alumni by name, batch, department..." class="w-full p-3 border rounded mb-6" />
-      <div class="flex items-center gap-3 mb-4">
-        <button id="directorySearchBtn" class="px-4 py-2 bg-blue-600 text-white rounded">Search</button>
-        <button id="clearSearchBtn" class="px-4 py-2 bg-gray-300 text-gray-800 rounded">Clear</button>
-        <div class="text-sm text-gray-600 ml-4">Only search results are shown — all alumni data is private by default.</div>
-      </div>
-      <div id="directory-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="flex gap-3">
+          <a href="#alumni" class="bg-blue-600 text-white px-5 py-3 rounded-lg">Get Started</a>
+          <button id="openDirectoryBtn" class="px-5 py-3 border rounded-lg">Browse Directory</button>
         </div>
+      </div>
+      <div id="animated-logo-container" class="md:w-1/2 mt-8 md:mt-0">
+        <img id="company-logo" src="assets/logo.jpeg" alt="logo">
+      </div>
     </div>
-  </section>
+  </header>
 
-  <section id="networking" class="max-w-5xl mx-auto py-12 px-6 fade-in">
-    <h3 class="text-2xl font-bold mb-6 border-b pb-2">Communication & Networking</h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="bg-white p-6 rounded-xl shadow-lg">
-        <h4 class="font-semibold text-lg">Messaging System</h4>
-        <p class="text-sm mt-2">Send direct messages to alumni and students securely.</p>
-        <button id="openChatBtn" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded">Open Chat</button>
-        <div id="chatPanel" class="mt-4 hidden">
-          <div class="flex gap-4">
-            <div class="w-1/3 border p-3 rounded">
-              <input id="chatUserSearch" placeholder="Search alumni to chat..." class="w-full p-2 border rounded mb-3" />
-              <div id="chatUserList" class="space-y-2 max-h-56 overflow-y-auto"></div>
-            </div>
-            <div class="w-2/3 border p-3 rounded flex flex-col">
-              <div id="chatMessages" class="chat-container mb-3 flex flex-col"></div>
-              <div class="flex gap-2">
-                <input id="chatMessageInput" placeholder="Type a message..." class="flex-1 p-2 border rounded" />
-                <button id="sendChatBtn" class="px-4 py-2 bg-blue-600 text-white rounded">Send</button>
+  <!-- MAIN BODY -->
+  <main class="max-w-6xl mx-auto px-6 space-y-10 py-10">
+
+    <!-- ALUMNI FORM -->
+    <section id="alumni" class="fade-in">
+      <h2 class="text-2xl font-semibold mb-4">Alumni Registration & Profiles</h2>
+      <form id="alumni-form" class="grid grid-cols-1 md:grid-cols-2 gap-6 card">
+        <input id="alumni-name" placeholder="Full Name" class="p-3 border rounded" />
+        <input id="alumni-email" placeholder="Email (Mandatory)" class="p-3 border rounded" />
+        <input id="alumni-batch" placeholder="Batch" class="p-3 border rounded" />
+        <input id="alumni-dept" placeholder="Department" class="p-3 border rounded" />
+        <input id="alumni-role" placeholder="Current Job Title" class="p-3 border rounded" />
+        <input id="alumni-company" placeholder="Company" class="p-3 border rounded" />
+        <input id="alumni-location" placeholder="Location (City, Country)" class="p-3 border rounded" />
+        <input id="alumni-photo" type="file" accept="image/*" class="p-3 border rounded col-span-2" />
+        <button id="alumni-submit" class="col-span-2 bg-blue-600 text-white p-3 rounded-lg">Register</button>
+      </form>
+    </section>
+
+    <!-- DIRECTORY -->
+    <section id="directory" class="fade-in">
+      <h2 class="text-2xl font-semibold mb-4">Centralized Alumni Directory</h2>
+
+      <div class="mb-4 flex flex-col md:flex-row md:items-center gap-3">
+        <input id="directorySearchInput" type="text" placeholder="Search alumni by name, batch, department, company..." class="p-3 border rounded flex-1" />
+        <div class="flex gap-2">
+          <button id="directorySearchBtn" class="bg-blue-600 text-white px-4 py-2 rounded">Search</button>
+          <button id="clearSearchBtn" class="bg-gray-300 px-4 py-2 rounded">Clear</button>
+        </div>
+      </div>
+
+      <div class="text-sm text-gray-600 mb-4">Only search results are shown — all alumni data is private by default.</div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+      </div>
+    </section>
+
+    <!-- NETWORKING: Messaging & Forums -->
+    <section id="networking" class="fade-in">
+      <h2 class="text-2xl font-semibold mb-4">Communication & Networking</h2>
+      <div class="grid md:grid-cols-2 gap-6">
+
+        <!-- Messaging -->
+        <div class="card">
+          <h3 class="font-semibold text-lg">Messaging System</h3>
+          <p class="text-sm mt-2">Send direct messages to alumni and students securely.</p>
+          <button id="openChatBtn" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">Open Chat</button>
+
+          <div id="chatPanel" class="mt-4 hidden">
+            <div class="flex gap-4">
+              <div class="w-1/3 border p-3 rounded">
+                <input id="chatUserSearch" placeholder="Search alumni to chat..." class="w-full p-2 border rounded mb-3" />
+                <div id="chatUserList" class="space-y-2 max-h-56 overflow-y-auto"></div>
+              </div>
+
+              <div class="w-2/3 border p-3 rounded flex flex-col">
+                <div id="chatMessages" class="chat-container mb-3 flex flex-col"></div>
+                <div class="flex gap-2">
+                  <input id="chatMessageInput" placeholder="Type a message..." class="flex-1 p-2 border rounded" />
+                  <button id="sendChatBtn" class="px-4 py-2 bg-blue-600 text-white rounded">Send</button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="bg-white p-6 rounded-xl shadow-lg">
-        <h4 class="font-semibold text-lg">Discussion Forums</h4>
-        <p class="text-sm mt-2">Join batch-wise or industry-wise groups and discussions.</p>
-        <button id="openForumsBtn" class="mt-4 px-4 py-2 bg-green-600 text-white rounded">Browse Forums</button>
-        <div id="forumPanel" class="mt-4 hidden">
-          <div class="flex gap-4">
-            <div class="w-1/3 border p-3 rounded">
-              <h5 class="font-semibold mb-2">Forums</h5>
-              <ul id="forumList" class="space-y-2">
-                <li class="p-2 border rounded cursor-pointer" data-forum="general">General</li>
-                <li class="p-2 border rounded cursor-pointer" data-forum="jobs">Jobs & Careers</li>
-                <li class="p-2 border rounded cursor-pointer" data-forum="reunions">Reunions</li>
-              </ul>
-            </div>
-            <div class="w-2/3 border p-3 rounded flex flex-col">
-              <div id="forumThreads" class="mb-3 space-y-3 overflow-y-auto" style="max-height:320px;">
-                <div class="p-3 border rounded">Select a forum to view threads.</div>
+
+        <!-- Forums -->
+        <div class="card">
+          <h3 class="font-semibold text-lg">Discussion Forums</h3>
+          <p class="text-sm mt-2">Join batch-wise or industry-wise groups and discussions.</p>
+          <button id="openForumsBtn" class="mt-4 bg-green-600 text-white px-4 py-2 rounded">Browse Forums</button>
+
+          <div id="forumPanel" class="mt-4 hidden">
+            <div class="flex gap-4">
+              <div class="w-1/3 border p-3 rounded">
+                <h5 class="font-semibold mb-2">Forums</h5>
+                <ul id="forumList" class="space-y-2">
+                  <li data-forum="general" class="p-2 border rounded cursor-pointer">General</li>
+                  <li data-forum="jobs" class="p-2 border rounded cursor-pointer">Jobs & Careers</li>
+                  <li data-forum="reunions" class="p-2 border rounded cursor-pointer">Reunions</li>
+                </ul>
               </div>
-              <textarea id="newThreadInput" placeholder="Start a new thread in this forum..." class="p-2 border rounded mb-2"></textarea>
-              <div class="flex justify-end">
-                <button id="postThreadBtn" class="px-4 py-2 bg-green-600 text-white rounded">Post Thread</button>
+
+              <div class="w-2/3 border p-3 rounded flex flex-col">
+                <div id="forumThreads" class="mb-3 space-y-3 overflow-y-auto" style="max-height:320px;">
+                  <div class="p-3 border rounded">Select a forum to view threads.</div>
+                </div>
+
+                <textarea id="newThreadInput" placeholder="Start a new thread in this forum..." class="p-2 border rounded mb-2"></textarea>
+                <div class="flex justify-end">
+                  <button id="postThreadBtn" class="px-4 py-2 bg-green-600 text-white rounded">Post Thread</button>
+                </div>
               </div>
             </div>
           </div>
+
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="events" class="bg-gray-100 py-12 px-6 fade-in">
-    <div class="max-w-5xl mx-auto">
-      <h3 class="text-2xl font-bold mb-6 border-b pb-2">Events & Networking</h3>
+    <!-- EVENTS -->
+    <section id="events" class="fade-in">
+      <h2 class="text-2xl font-semibold mb-4">Events & Networking</h2>
       <button id="createEventBtn" class="mb-6 bg-blue-600 text-white px-4 py-2 rounded">+ Create Event</button>
-      <div id="events-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-white p-6 rounded-xl shadow-lg">
-          <h4 class="text-xl font-semibold">Annual Reunion 2025</h4>
-          <p class="text-sm mt-2">Join your batchmates for a grand reunion in campus!</p>
+      <div id="eventsGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="card">
+          <h4 class="font-semibold">Annual Reunion 2025</h4>
+          <p class="text-sm mt-2">Join your batchmates for a grand reunion on campus!</p>
           <button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">RSVP</button>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="mentorship" class="max-w-5xl mx-auto py-12 px-6 fade-in">
-    <h3 class="text-2xl font-bold mb-6 border-b pb-2">Mentorship & Career Support</h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="bg-white p-6 rounded-xl shadow-lg">
-        <h4 class="text-xl font-semibold">Become a Mentor</h4>
-        <p class="mt-2 text-sm">Volunteer to guide students and junior alumni in their career paths.</p>
-        <button id="becomeMentorBtn" class="mt-4 bg-green-600 text-white px-4 py-2 rounded">Sign Up</button>
+    <!-- Mentorship -->
+    <section id="mentorship" class="fade-in">
+      <h2 class="text-2xl font-semibold mb-4">Mentorship & Career Support</h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="card">
+          <h4 class="font-semibold">Become a Mentor</h4>
+          <p class="mt-2 text-sm">Volunteer to guide students and junior alumni in their career paths.</p>
+          <button id="becomeMentorBtn" class="mt-4 bg-green-600 text-white px-4 py-2 rounded">Sign Up</button>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="donations" class="bg-gray-100 py-12 px-6 fade-in">
-    <div class="max-w-5xl mx-auto">
-      <h3 class="text-2xl font-bold mb-6 border-b pb-2">Fundraising & Donations</h3>
-      <div class="bg-white p-6 rounded-xl shadow-lg">
+    <!-- Donations -->
+    <section id="donations" class="fade-in">
+      <h2 class="text-2xl font-semibold mb-4">Fundraising & Donations</h2>
+      <div class="card">
         <p class="text-sm">Support your alma mater’s growth. Transparent reports of all contributions.</p>
         <button id="donateBtn" class="mt-4 bg-purple-600 text-white px-6 py-2 rounded-lg">Donate Now</button>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <footer class="text-center py-6 bg-blue-600 text-white fade-in">
-    <p>&copy; 2025 Alumni Connect | Built with ❤️ for SIH</p>
-  </footer>
+  </main>
 
+  <!-- FOOTER -->
+  <footer class="py-6 bg-blue-600 text-white text-center">© 2025 Alumni Connect | Built with ❤️</footer>
+
+  <!-- AUTH MODAL (injected by script) + main script -->
   <script type="module">
+    /* ===========================
+       FULL UI — Supabase v2 client
+       ===========================
+       IMPORTANT: Replace the placeholder string below with your SUPABASE ANON public key locally.
+       DO NOT embed service-role keys or long-lived server keys in frontend code.
+    */
+
     import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
     const SUPABASE_URL = "https://oriswzmkjvyesqlrpbya.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9yaXN3em1ranZ5ZXNxbHJwYnlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc5MzA4OTMsImV4cCI6MjA3MzUwNjg5M30.YH3JEbMDL0r8FvmQ-KJtrKCVmJo5RslUKq90FkICvAE";
+    const SUPABASE_ANON_KEY = "REPLACE_WITH_YOUR_ANON_KEY"; // <<-- set this locally. DO NOT commit.
+
     const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    window._supabase = _supabase; // optional, for debugging locally only
 
-    // --- Utilities ---
-    const el = (selector) => document.querySelector(selector);
-    const escapeHtml = (str) => {
+    // ---------- small helpers ----------
+    const $ = (s) => document.querySelector(s);
+    const $$ = (s) => Array.from(document.querySelectorAll(s));
+    function escapeHtml(str) {
       if (!str) return '';
-      return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    };
+      return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    }
 
-    // --- General UI ---
-    const setupUI = () => {
-        el('#darkModeToggle').addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            el('#darkModeToggle').textContent = document.body.classList.contains('dark-mode') ? "☀️ Light Mode" : "🌙 Dark Mode";
-        });
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('visible');
-            });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.fade-in').forEach(elm => observer.observe(elm));
-    };
-    
-    // --- Auth ---
-    const setupAuth = () => {
-        const authModalHtml = `
-            <div id="authOverlay" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
-                <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 dark:bg-gray-800">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Sign in / Sign up</h3>
-                        <button id="closeAuth" class="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">✕</button>
-                    </div>
-                    <div class="grid grid-cols-1 gap-4">
-                        <div>
-                            <input id="authEmail" type="email" placeholder="Email" class="w-full p-2 border rounded mb-2" />
-                            <input id="authPassword" type="password" placeholder="Password" class="w-full p-2 border rounded mb-4" />
-                            <div class="flex gap-2">
-                                <button id="signinBtn" class="flex-1 bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Sign In</button>
-                                <button id="signupBtn" class="flex-1 bg-green-600 text-white py-2 rounded hover:bg-green-700">Sign Up</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>`;
-        document.body.insertAdjacentHTML('beforeend', authModalHtml);
-        
-        el('#openAuthBtn').addEventListener('click', () => el('#authOverlay').classList.remove('hidden'));
-        el('#closeAuth').addEventListener('click', () => el('#authOverlay').classList.add('hidden'));
+    // ---------- elements ----------
+    const openAuthBtn = $('#openAuthBtn');
+    const authStatusEl = $('#auth-status');
+    const darkModeToggle = $('#darkModeToggle');
+    const alumniForm = $('#alumni-form');
+    const alumniSubmit = $('#alumni-submit');
+    const directorySearchInput = $('#directorySearchInput');
+    const directorySearchBtn = $('#directorySearchBtn');
+    const clearSearchBtn = $('#clearSearchBtn');
+    const directoryGrid = document.querySelector('#directory .grid');
+    const openChatBtn = $('#openChatBtn');
+    const chatPanel = $('#chatPanel');
+    const chatUserSearch = $('#chatUserSearch');
+    const chatUserList = $('#chatUserList');
+    const chatMessages = $('#chatMessages');
+    const chatMessageInput = $('#chatMessageInput');
+    const sendChatBtn = $('#sendChatBtn');
+    const openForumsBtn = $('#openForumsBtn');
+    const forumPanel = $('#forumPanel');
+    const forumList = $('#forumList');
+    const forumThreads = $('#forumThreads');
+    const postThreadBtn = $('#postThreadBtn');
+    const newThreadInput = $('#newThreadInput');
+    const createEventBtn = $('#createEventBtn');
+    const becomeMentorBtn = $('#becomeMentorBtn');
+    const donateBtn = $('#donateBtn');
+    const openDirectoryBtn = $('#openDirectoryBtn');
 
-        el('#signupBtn').addEventListener('click', async () => {
-            const email = el('#authEmail').value;
-            const password = el('#authPassword').value;
-            if (!email || !password) { alert('Please enter email and password.'); return; }
-            const { error } = await _supabase.auth.signUp({ email, password });
-            if (error) { alert(error.message); } 
-            else { alert('Signup successful! Please check your email to verify.'); el('#authOverlay').classList.add('hidden'); }
-        });
+    // Build auth modal and inject
+    const authModalHtml = `
+      <div id="authOverlay" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-60 hidden">
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl p-6">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-semibold">Sign in / Sign up</h3>
+            <button id="closeAuth" class="text-gray-600">✕</button>
+          </div>
+          <div class="grid md:grid-cols-2 gap-4">
+            <div>
+              <h4 class="font-semibold mb-2">Create account</h4>
+              <input id="signupEmail" type="email" placeholder="Email" class="w-full p-2 border rounded mb-2" />
+              <input id="signupPassword" type="password" placeholder="Password" class="w-full p-2 border rounded mb-2" />
+              <button id="signupBtn" class="w-full bg-blue-600 text-white py-2 rounded">Create account</button>
+            </div>
+            <div>
+              <h4 class="font-semibold mb-2">Sign in</h4>
+              <input id="signinEmail" type="email" placeholder="Email" class="w-full p-2 border rounded mb-2" />
+              <input id="signinPassword" type="password" placeholder="Password" class="w-full p-2 border rounded mb-2" />
+              <button id="signinBtn" class="w-full bg-green-600 text-white py-2 rounded">Sign in</button>
+              <button id="magicLinkBtn" class="w-full mt-2 bg-gray-200 text-gray-800 py-2 rounded">Send magic link</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', authModalHtml);
+    const authOverlay = $('#authOverlay');
+    $('#closeAuth').addEventListener('click', () => authOverlay.classList.add('hidden'));
 
-        el('#signinBtn').addEventListener('click', async () => {
-            const email = el('#authEmail').value;
-            const password = el('#authPassword').value;
-            if (!email || !password) { alert('Please enter email and password.'); return; }
-            const { error } = await _supabase.auth.signInWithPassword({ email, password });
-            if (error) { alert(error.message); } 
-            else { alert('Signed in successfully!'); el('#authOverlay').classList.add('hidden'); }
-        });
-    };
+    // ---------- dark mode ----------
+    darkModeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      darkModeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️ Light Mode' : '🌙 Dark Mode';
+    });
 
-    const refreshAuthState = async () => {
+    // ---------- fade-in observer ----------
+    const fadeElems = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(ent => { if (ent.isIntersecting) ent.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    fadeElems.forEach(e => observer.observe(e));
+
+    // ---------- AUTH logic ----------
+    async function refreshAuthState() {
+      try {
         const { data: { user } } = await _supabase.auth.getUser();
-        const authStatusEl = el('#auth-status');
-        const openAuthBtn = el('#openAuthBtn');
-        
-        if (el('#logoutBtn')) el('#logoutBtn').remove();
-
         if (user) {
-            authStatusEl.textContent = `Signed in as ${user.email.split('@')[0]}`;
-            authStatusEl.classList.remove('hidden');
-            openAuthBtn.style.display = 'none';
-            
+          authStatusEl.textContent = `Signed in as ${user.email}`;
+          authStatusEl.classList.remove('hidden');
+          openAuthBtn.textContent = 'Account';
+          if (!$('#logoutBtn')) {
             const logoutBtn = document.createElement('button');
             logoutBtn.id = 'logoutBtn';
-            logoutBtn.className = 'px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600';
+            logoutBtn.className = 'px-3 py-1 bg-white text-blue-600 rounded hover:opacity-90 ml-2';
             logoutBtn.textContent = 'Logout';
-            logoutBtn.addEventListener('click', async () => await _supabase.auth.signOut());
-            authStatusEl.insertAdjacentElement('afterend', logoutBtn);
+            logoutBtn.addEventListener('click', async () => { await _supabase.auth.signOut(); await refreshAuthState(); alert('Signed out.'); });
+            openAuthBtn.insertAdjacentElement('afterend', logoutBtn);
+          }
         } else {
-            authStatusEl.textContent = 'Not signed in';
-            openAuthBtn.style.display = 'block';
+          authStatusEl.textContent = 'Not signed in';
+          openAuthBtn.textContent = 'Sign up / Log in';
+          const lb = $('#logoutBtn'); if (lb) lb.remove();
         }
-    };
-    
-    // --- Alumni Directory ---
-    const setupDirectory = () => {
-        const directoryGrid = el('#directory-grid');
-        
-        const renderAlumniCards = (alumniList) => {
-            directoryGrid.style.display = (!alumniList || alumniList.length === 0) ? 'block' : 'grid';
-            directoryGrid.innerHTML = (!alumniList || alumniList.length === 0) 
-                ? '<p class="col-span-3 text-center text-gray-500">No alumni found.</p>'
-                : alumniList.map(alumnus => `
-                    <div class="bg-white p-6 rounded-xl shadow-lg">
-                        <img src="${escapeHtml(alumnus.photo_url || 'https://via.placeholder.com/100')}" alt="Profile photo of ${escapeHtml(alumnus.name)}" class="w-20 h-20 rounded-full mb-3 object-cover mx-auto">
-                        <h4 class="text-lg font-semibold text-center">${escapeHtml(alumnus.name)}</h4>
-                        <p class="text-sm text-gray-500 text-center">Batch of ${escapeHtml(alumnus.batch)}</p>
-                        <p class="text-sm mt-2 text-center">${escapeHtml(alumnus.role)} @ ${escapeHtml(alumnus.company)}</p>
-                        <p class="text-sm mt-2 text-center font-semibold">${escapeHtml(alumnus.location)}</p>
-                        <div class="mt-4 flex justify-center">
-                           <button class="message-btn px-4 py-2 bg-blue-600 text-white rounded" data-id="${alumnus.id}" data-name="${escapeHtml(alumnus.name)}">Message</button>
-                        </div>
-                    </div>
-                `).join('');
-            
-            document.querySelectorAll('.message-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const userId = btn.dataset.id;
-                    const userName = btn.dataset.name;
-                    alert(`Messaging ${userName} (ID: ${userId})...`);
-                    // This is where you would open the chat panel for the specific user
-                    openChatWithUserId(userId);
-                });
-            });
-        };
-        
-        const searchAlumni = async () => {
-            const query = el('#directorySearchInput').value.trim();
-            if (!query) { directoryGrid.style.display = 'none'; directoryGrid.innerHTML = ''; return; }
-            const filter = `name.ilike.%${query}%,batch.ilike.%${query}%,dept.ilike.%${query}%,company.ilike.%${query}%,location.ilike.%${query}%`;
-            const { data, error } = await _supabase.from('alumni').select('*').or(filter).limit(50);
-            
-            if (error) { console.error('Search error:', error); alert('Search failed.'); }
-            else { renderAlumniCards(data); }
-        };
-        
-        el('#directorySearchBtn').addEventListener('click', searchAlumni);
-        el('#directorySearchInput').addEventListener('keydown', (e) => e.key === 'Enter' && searchAlumni());
-        el('#clearSearchBtn').addEventListener('click', () => {
-            el('#directorySearchInput').value = '';
-            directoryGrid.style.display = 'none';
-            directoryGrid.innerHTML = '';
-        });
-    };
-    
-    // --- Alumni Registration ---
-    const setupRegistration = () => {
-        el('#alumni-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const submitButton = el('#alumni-submit');
-            submitButton.disabled = true;
-            submitButton.textContent = 'Registering...';
+      } catch (err) { console.error('refreshAuthState error', err); }
+    }
 
-            const formData = {
-                name: el('#alumni-name').value, email: el('#alumni-email').value, batch: el('#alumni-batch').value,
-                dept: el('#alumni-dept').value, role: el('#alumni-role').value, company: el('#alumni-company').value,
-                location: el('#alumni-location').value,
-            };
+    // auth modal wiring
+    openAuthBtn.addEventListener('click', () => authOverlay.classList.remove('hidden'));
+    $('#signupBtn').addEventListener('click', async () => {
+      const email = $('#signupEmail').value; const password = $('#signupPassword').value;
+      if (!email || !password) return alert('Enter email & password');
+      const { error } = await _supabase.auth.signUp({ email, password });
+      if (error) { console.error(error); alert('Sign up failed — check console'); return; }
+      alert('Sign up initiated. Check email.');
+      authOverlay.classList.add('hidden');
+      refreshAuthState();
+    });
+    $('#signinBtn').addEventListener('click', async () => {
+      const email = $('#signinEmail').value; const password = $('#signinPassword').value;
+      if (!email || !password) return alert('Enter email & password');
+      const { error } = await _supabase.auth.signInWithPassword({ email, password });
+      if (error) { console.error(error); alert('Sign in failed — check console'); return; }
+      alert('Signed in!');
+      authOverlay.classList.add('hidden');
+      refreshAuthState();
+    });
+    $('#magicLinkBtn').addEventListener('click', async () => {
+      const email = $('#signinEmail').value || $('#signupEmail').value;
+      if (!email) return alert('Enter email for magic link');
+      const { error } = await _supabase.auth.signInWithOtp({ email });
+      if (error) { console.error(error); alert('Failed to send magic link'); return; }
+      alert('Magic link sent.');
+    });
 
-            if (!formData.email) {
-                alert('Email is a required field.');
-                submitButton.disabled = false;
-                submitButton.textContent = 'Register';
-                return;
-            }
+    // ensure auth state updates reactively
+    _supabase.auth.onAuthStateChange(() => { refreshAuthState(); });
 
-            const photoFile = el('#alumni-photo').files[0];
-            if (photoFile) {
-                const fileName = `${Date.now()}_${photoFile.name}`;
-                const { data, error } = await _supabase.storage.from('public').upload(`alumni-photos/${fileName}`, photoFile);
-                if (error) { console.error('Photo upload error:', error); } 
-                else {
-                    const { data: urlData } = _supabase.storage.from('public').getPublicUrl(data.path);
-                    formData.photo_url = urlData.publicUrl;
-                }
-            }
+    // ---------- ALUMNI: load & create ----------
+    async function loadAlumni() {
+      try {
+        const { data, error } = await _supabase.from('alumni').select('*').order('id', { ascending: false }).limit(200);
+        if (error) { console.error('loadAlumni error', error); return; }
+        const container = document.querySelector('#directory .grid');
+        container.innerHTML = '';
+        if (!data || data.length === 0) { container.style.display = 'none'; return; }
+        container.style.display = 'grid';
+        container.innerHTML = data.map(a => `
+          <div class="bg-white p-6 rounded-xl shadow-lg">
+            <img src="${escapeHtml(a.photo_url || 'https://via.placeholder.com/100')}" class="w-20 h-20 rounded-full mb-3 object-cover"/>
+            <h4 class="text-lg font-semibold">${escapeHtml(a.name || '(no name)')}</h4>
+            <p class="text-sm text-gray-500">Batch: ${escapeHtml(a.batch || 'N/A')} | Dept: ${escapeHtml(a.dept || 'N/A')}</p>
+            <p class="text-sm mt-2">${escapeHtml(a.role || 'Role not specified')} @ ${escapeHtml(a.company || 'Company not specified')}</p>
+            <p class="text-sm mt-3"><strong>Location:</strong> ${escapeHtml(a.location || '—')}</p>
+          </div>
+        `).join('');
+      } catch (err) { console.error('loadAlumni unexpected', err); }
+    }
 
-            const { error } = await _supabase.from('alumni').insert([formData]);
-            if (error) { alert(`Registration failed: ${error.message}`); }
-            else { alert('Registration successful!'); el('#alumni-form').reset(); }
-            
-            submitButton.disabled = false;
-            submitButton.textContent = 'Register';
-        });
-    };
-    
-    // --- RESTORED: Chat & Forums ---
+    // alumni submit
+    alumniForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const payload = {
+        name: $('#alumni-name').value.trim(),
+        email: $('#alumni-email').value.trim(),
+        batch: $('#alumni-batch').value.trim(),
+        dept: $('#alumni-dept').value.trim(),
+        role: $('#alumni-role').value.trim(),
+        company: $('#alumni-company').value.trim(),
+        location: $('#alumni-location').value.trim()
+      };
+      if (!payload.email) return alert('Email required');
+      // photo optional upload
+      const photoInput = $('#alumni-photo');
+      if (photoInput && photoInput.files && photoInput.files[0]) {
+        try {
+          const file = photoInput.files[0];
+          const name = `alumni/${Date.now()}_${file.name}`;
+          const up = await _supabase.storage.from('public').upload(name, file, { upsert: false });
+          if (up.error) console.warn('storage upload err', up.error);
+          else {
+            const pub = _supabase.storage.from('public').getPublicUrl(up.data.path);
+            payload.photo_url = pub.data.publicUrl;
+          }
+        } catch (err) { console.warn('photo upload failed', err); }
+      }
+
+      const { data, error } = await _supabase.from('alumni').insert([payload]);
+      if (error) { console.error('insert alumni', error); alert('Failed to register alumni'); return; }
+      alert('Registered!');
+      alumniForm.reset();
+      loadAlumni();
+    });
+
+    // ---------- DIRECTORY SEARCH ----------
+    function showDirectoryResults(html) {
+      directoryGrid.style.display = 'grid';
+      directoryGrid.innerHTML = html || '<div class="col-span-3 bg-white p-6 rounded-xl shadow-lg">No results found.</div>';
+    }
+    function hideDirectoryResults() {
+      directoryGrid.style.display = 'none';
+      directoryGrid.innerHTML = '';
+    }
+    hideDirectoryResults();
+
+    async function searchAlumni(q) {
+      if (!q || q.trim().length === 0) { alert('Enter search term'); return; }
+      const qTrim = q.trim();
+      const filter = [
+        `name.ilike.%${qTrim}%`,
+        `batch.ilike.%${qTrim}%`,
+        `dept.ilike.%${qTrim}%`,
+        `company.ilike.%${qTrim}%`,
+        `location.ilike.%${qTrim}%`
+      ].join(',');
+      const { data, error } = await _supabase.from('alumni').select('id,name,batch,dept,role,company,location,email,photo_url').or(filter).limit(50);
+      if (error) { console.error('searchAlumni', error); alert('Search failed'); return; }
+      if (!data || data.length === 0) {
+        showDirectoryResults('<div class="col-span-3 bg-white p-6 rounded-xl shadow-lg">No matching alumni found.</div>');
+        return;
+      }
+      const cards = data.map(alumni => `
+        <div class="bg-white p-6 rounded-xl shadow-lg">
+          <img src="${escapeHtml(alumni.photo_url || 'https://via.placeholder.com/100')}" class="w-20 h-20 rounded-full mb-3 object-cover"/>
+          <h4 class="text-lg font-semibold">${escapeHtml(alumni.name || 'Unknown')}</h4>
+          <p class="text-sm text-gray-500">Batch: ${escapeHtml(alumni.batch || 'N/A')} | Dept: ${escapeHtml(alumni.dept || 'N/A')}</p>
+          <p class="text-sm mt-2">${escapeHtml(alumni.role || 'Role not specified')} @ ${escapeHtml(alumni.company || 'Company not specified')}</p>
+          <p class="text-sm mt-3"><strong>Location:</strong> ${escapeHtml(alumni.location || '—')}</p>
+          <div class="mt-3 flex gap-2">
+            <button class="openProfileBtn px-3 py-1 bg-blue-600 text-white rounded" data-id="${alumni.id}">View / Message</button>
+            <button class="connectBtn px-3 py-1 bg-green-600 text-white rounded" data-id="${alumni.id}">Connect</button>
+          </div>
+        </div>
+      `).join('');
+      showDirectoryResults(cards);
+
+      // attach buttons
+      $$('.openProfileBtn').forEach(btn => btn.addEventListener('click', () => openChatWithUserId(btn.dataset.id)));
+      $$('.connectBtn').forEach(btn => btn.addEventListener('click', () => alert('Connect request placeholder')));
+    }
+
+    directorySearchBtn.addEventListener('click', () => searchAlumni(directorySearchInput.value));
+    directorySearchInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); searchAlumni(directorySearchInput.value); }});
+    clearSearchBtn.addEventListener('click', () => { directorySearchInput.value=''; hideDirectoryResults(); });
+    openDirectoryBtn.addEventListener('click', () => {
+      document.querySelector('#directory').scrollIntoView({ behavior: 'smooth' });
+      // optionally load all alumni summary
+      loadAlumni();
+    });
+
+    // ---------- CHAT ----------
     let currentChatUserId = null;
     let currentUser = null;
-    let messagesSubscription = null;
+    const messagesSubscriptionRefs = [];
 
-    const openChatWithUserId = async (userId) => {
-        el('#chatPanel').classList.remove('hidden');
-        currentChatUserId = userId;
-        el('#chatMessages').innerHTML = '<p class="text-center text-gray-500">Loading...</p>';
-        
-        const { data: { user } } = await _supabase.auth.getUser();
-        currentUser = user;
-
-        if (messagesSubscription) {
-            await messagesSubscription.unsubscribe();
-            messagesSubscription = null;
-        }
-
-        const { data: messages, error } = await _supabase.from('messages')
-            .select('*').or(`and(from_id.eq.${currentUser.id},to_id.eq.${userId}),and(from_id.eq.${userId},to_id.eq.${currentUser.id})`)
-            .order('inserted_at');
-
-        if (error) { el('#chatMessages').innerHTML = `<p>Error loading messages.</p>`; return; }
-        renderMessages(messages);
-
-        messagesSubscription = _supabase.channel(`public:messages:user=${currentUser.id}`)
-            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, payload => {
-                const msg = payload.new;
-                if ((msg.from_id == currentUser.id && msg.to_id == userId) || (msg.from_id == userId && msg.to_id == currentUser.id)) {
-                    appendMessageToChat(msg);
-                }
-            }).subscribe();
-    };
-    
-    const renderMessages = (messages) => {
-        el('#chatMessages').innerHTML = messages.length ? messages.map(msg => `
-            <div class="message ${msg.from_id === currentUser.id ? 'me' : 'them'}">
-                ${escapeHtml(msg.content)}
-            </div>
-        `).join('') : '<p class="text-center text-gray-500">No messages yet.</p>';
-        el('#chatMessages').scrollTop = el('#chatMessages').scrollHeight;
-    };
-    
-    const appendMessageToChat = (msg) => {
-        const messageEl = document.createElement('div');
-        messageEl.classList.add('message', msg.from_id === currentUser.id ? 'me' : 'them');
-        messageEl.textContent = msg.content;
-        el('#chatMessages').appendChild(messageEl);
-        el('#chatMessages').scrollTop = el('#chatMessages').scrollHeight;
-    };
-
-    const setupNetworking = () => {
-        el('#openChatBtn').addEventListener('click', () => el('#chatPanel').classList.toggle('hidden'));
-        el('#openForumsBtn').addEventListener('click', () => el('#forumPanel').classList.toggle('hidden'));
-
-        el('#sendChatBtn').addEventListener('click', async () => {
-            const content = el('#chatMessageInput').value;
-            if (!content || !currentChatUserId || !currentUser) return;
-            const { error } = await _supabase.from('messages').insert([{ from_id: currentUser.id, to_id: currentChatUserId, content }]);
-            if (error) { alert('Could not send message.'); console.error(error); }
-            else { el('#chatMessageInput').value = ''; }
-        });
-
-        // Add other networking feature initializations here...
-    };
-
-    // --- App Initialization ---
-    document.addEventListener('DOMContentLoaded', () => {
-        setupUI();
-        setupAuth();
-        setupDirectory();
-        setupRegistration();
-        setupNetworking(); // <-- RESTORED
-        
-        _supabase.auth.onAuthStateChange((_event, session) => {
-            refreshAuthState();
-            if (_event === 'SIGNED_OUT') { // Cleanup on signout
-                if (messagesSubscription) messagesSubscription.unsubscribe();
-                messagesSubscription = null;
-                currentUser = null;
-            }
-        });
-        
-        refreshAuthState();
+    openChatBtn.addEventListener('click', () => {
+      chatPanel.classList.toggle('hidden');
+      if (!chatPanel.classList.contains('hidden')) chatUserList.innerHTML = '<div class="text-sm text-gray-600">Search alumni to start a chat</div>';
     });
+
+    chatUserSearch.addEventListener('keydown', async (e) => {
+      if (e.key !== 'Enter') return;
+      const q = chatUserSearch.value.trim(); if (!q) return;
+      const filter = [`name.ilike.%${q}%`,`email.ilike.%${q}%`].join(',');
+      const { data, error } = await _supabase.from('alumni').select('id,name,email,batch,dept').or(filter).limit(30);
+      if (error) { console.error(error); chatUserList.innerHTML = '<div class="text-red-600">Search failed</div>'; return; }
+      if (!data || data.length === 0) { chatUserList.innerHTML = '<div class="text-sm text-gray-600">No users found</div>'; return; }
+      chatUserList.innerHTML = data.map(u => `<div class="p-2 border rounded cursor-pointer chat-user-item" data-id="${u.id}" data-name="${escapeHtml(u.name)}"><div class="font-semibold">${escapeHtml(u.name)}</div><div class="text-xs text-gray-600">Batch: ${escapeHtml(u.batch || '—')} • ${escapeHtml(u.dept || '—')}</div></div>`).join('');
+      $$('.chat-user-item').forEach(item => item.addEventListener('click', () => openChatWithUserId(item.dataset.id)));
+    });
+
+    async function openChatWithUserId(userId) {
+      currentChatUserId = userId;
+      chatMessages.innerHTML = '<div class="text-sm text-gray-600">Loading messages...</div>';
+      const { data: authData } = await _supabase.auth.getUser(); currentUser = authData?.user || null;
+      if (!currentUser) { chatMessages.innerHTML = '<div class="text-sm text-yellow-600">You are not signed in. Log in to send messages.</div>'; }
+      // fetch messages between currentUser and userId (if logged)
+      let messagesQuery;
+      if (currentUser) {
+        messagesQuery = _supabase.from('messages').select('id,from_id,to_id,content,inserted_at').or(`and(from_id.eq.${currentUser.id},to_id.eq.${userId}),and(from_id.eq.${userId},to_id.eq.${currentUser.id})`).order('inserted_at',{ascending:true}).limit(200);
+      } else {
+        messagesQuery = _supabase.from('messages').select('id,from_id,to_id,content,inserted_at').eq('to_id', userId).order('inserted_at',{ascending:true}).limit(200);
+      }
+      const { data: msgs, error } = await messagesQuery;
+      if (error) { console.warn('Messages load failed', error); chatMessages.innerHTML = '<div class="text-sm text-gray-600">No messages available.</div>'; return; }
+      renderMessages(msgs || []);
+      // cleanup previous subscriptions
+      if (messagesSubscriptionRefs.length) { messagesSubscriptionRefs.forEach(r => { try { _supabase.removeChannel?.(r); } catch{} }); messagesSubscriptionRefs.length=0; }
+      // subscribe to messages inserts
+      try {
+        const channel = _supabase.channel(`messages:private:${userId}`);
+        channel.on('postgres_changes',{ event:'INSERT', schema:'public', table:'messages' }, payload=>{
+          const newMsg = payload.new;
+          if (!newMsg) return;
+          const relevant = (newMsg.from_id === currentUser?.id && newMsg.to_id === parseInt(userId)) || (newMsg.from_id === parseInt(userId) && newMsg.to_id === currentUser?.id);
+          if (relevant) appendMessageToChat(newMsg, newMsg.from_id === currentUser?.id ? 'me' : 'them');
+        });
+        await channel.subscribe();
+        messagesSubscriptionRefs.push(channel);
+      } catch (err) {
+        console.warn('subscribe fallback', err);
+        try {
+          const sub = _supabase.from('messages').on('INSERT', payload=>{
+            const newMsg = payload.new;
+            if (!newMsg) return;
+            const relevant = (newMsg.from_id === currentUser?.id && newMsg.to_id === parseInt(userId)) || (newMsg.from_id === parseInt(userId) && newMsg.to_id === currentUser?.id);
+            if (relevant) appendMessageToChat(newMsg, newMsg.from_id === currentUser?.id ? 'me' : 'them');
+          }).subscribe();
+          messagesSubscriptionRefs.push(sub);
+        } catch (er) { console.warn('realtime subscribe not available', er); }
+      }
+    }
+
+    function renderMessages(msgs) {
+      if (!msgs || msgs.length === 0) { chatMessages.innerHTML = '<div class="text-sm text-gray-600">No messages yet. Start the conversation!</div>'; return; }
+      chatMessages.innerHTML = '';
+      msgs.forEach(m => { const who = (m.from_id === (currentUser?.id)) ? 'me' : 'them'; appendMessageToChat(m, who); });
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function appendMessageToChat(m, who) {
+      const wrap = document.createElement('div');
+      wrap.className = `message ${who === 'me' ? 'me' : 'them'}`;
+      const time = new Date(m.inserted_at || Date.now()).toLocaleString();
+      wrap.innerHTML = `<div class="text-sm">${escapeHtml(m.content)}</div><div class="text-xs text-gray-500 mt-1">${escapeHtml(time)}</div>`;
+      chatMessages.appendChild(wrap);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    sendChatBtn.addEventListener('click', async () => {
+      const content = chatMessageInput.value.trim(); if (!content) return;
+      if (!currentChatUserId) return alert('Select a user to message.');
+      const { data: authData } = await _supabase.auth.getUser(); const me = authData?.user || null;
+      if (!me) return alert('Sign in to send messages');
+      const payload = { from_id: me.id, to_id: parseInt(currentChatUserId), content };
+      const { error } = await _supabase.from('messages').insert([payload]);
+      if (error) { console.error('send message', error); alert('Failed to send'); return; }
+      chatMessageInput.value = '';
+      appendMessageToChat({ ...payload, inserted_at: new Date().toISOString() }, 'me');
+    });
+
+    // ---------- FORUMS ----------
+    openForumsBtn.addEventListener('click', () => forumPanel.classList.toggle('hidden'));
+    forumList.querySelectorAll('li').forEach(li => {
+      li.addEventListener('click', async () => {
+        const forum = li.dataset.forum;
+        const { data, error } = await _supabase.from('forum_threads').select('id,title,body,inserted_at,author_id').eq('forum',forum).order('inserted_at',{ascending:false}).limit(50);
+        if (error) { forumThreads.innerHTML = `<div class="p-3 border rounded">Could not load threads. Showing example.</div>`; return; }
+        if (!data || data.length===0) { forumThreads.innerHTML = `<div class="p-3 border rounded">No threads in ${escapeHtml(forum)}.</div>`; return; }
+        forumThreads.innerHTML = data.map(t=>`<div class="p-3 border rounded"><div class="font-semibold">${escapeHtml(t.title||'Untitled')}</div><div class="text-sm">${escapeHtml(t.body||'')}</div><div class="text-xs text-gray-500 mt-2">${new Date(t.inserted_at).toLocaleString()}</div></div>`).join('');
+      });
+    });
+
+    postThreadBtn.addEventListener('click', async () => {
+      const body = newThreadInput.value.trim(); if (!body) return alert('Enter thread content');
+      const forumEl = forumList.querySelector('li'); const forum = forumEl ? forumEl.dataset.forum : 'general';
+      const { data: authData } = await _supabase.auth.getUser(); const me = authData?.user || null;
+      if (!me) return alert('Sign in to post threads');
+      const payload = { forum, title: body.slice(0,60), body, author_id: me.id };
+      const { error } = await _supabase.from('forum_threads').insert([payload]);
+      if (error) { console.warn('post thread err', error); forumThreads.insertAdjacentHTML('afterbegin', `<div class="p-3 border rounded"><div class="font-semibold">[Local] ${escapeHtml(payload.title)}</div><div class="text-sm">${escapeHtml(payload.body)}</div></div>`); newThreadInput.value=''; alert('Thread stored locally (server insert failed)'); return; }
+      newThreadInput.value=''; alert('Thread posted!');
+    });
+
+    // ---------- EVENTS, MENTORSHIP, DONATIONS (placeholders) ----------
+    createEventBtn.addEventListener('click', ()=> alert('Create Event - placeholder'));
+    becomeMentorBtn.addEventListener('click', ()=> alert('Mentorship signup - placeholder'));
+    donateBtn.addEventListener('click', ()=> alert('Donations - placeholder'));
+
+    // ---------- initial run ----------
+    (async () => {
+      await refreshAuthState();
+      // don't load all alumni by default (privacy) — user triggers search or openDirectoryBtn
+    })();
+
+    // expose debug
+    window.__AlumniConnectDebug = { supabase: _supabase, loadAlumni, searchAlumni, refreshAuthState };
 
   </script>
 </body>
