@@ -4,69 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Alumni Connect Platform</title>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-  const supabaseUrl = 'https://oriswzmkjvyesqlrpbya.supabase.co';  // Replace this
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9yaXN3em1ranZ5ZXNxbHJwYnlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc5MzA4OTMsImV4cCI6MjA3MzUwNjg5M30.YH3JEbMDL0r8FvmQ-KJtrKCVmJo5RslUKq90FkICvAE';                        // Replace this
-  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
-</script>
-  <script>
-  async function loadAlumni() {
-    const { data, error } = await supabase
-      .from('alumni')              // Table name in Supabase
-      .select('*');                // Select all rows
-
-    if (error) {
-      console.error('Error loading alumni:', error);
-      return;
-    }
-
-    const container = document.querySelector('#directory .grid');
-    container.innerHTML = ''; // Clear existing placeholder cards
-
-    data.forEach(alumni => {
-      container.innerHTML += `
-        <div class="bg-white p-6 rounded-xl shadow-lg">
-          <img src="https://via.placeholder.com/100" alt="profile" class="w-20 h-20 rounded-full mb-3" />
-          <h4 class="text-lg font-semibold">${alumni.name}</h4>
-          <p class="text-sm text-gray-500">Batch: ${alumni.batch} | Dept: ${alumni.dept}</p>
-          <p class="text-sm mt-2">${alumni.role} @ ${alumni.company}</p>
-        </div>
-      `;
-    });
-  }
-
-  // Load alumni data on page load
-  document.addEventListener('DOMContentLoaded', loadAlumni);
-</script>
-  <script>
-  document.querySelector('#alumni form').addEventListener('submit', async function(e) {
-    e.preventDefault();
-
-    const formData = {
-      name: e.target[0].value,
-      email: e.target[1].value,
-      batch: e.target[2].value,
-      dept: e.target[3].value,
-      role: e.target[4].value,
-      company: e.target[5].value,
-      location: e.target[6].value,
-    };
-
-    const { data, error } = await supabase
-      .from('alumni')
-      .insert([formData]);
-
-    if (error) {
-      console.error('Insert error:', error);
-      alert('Failed to register alumni.');
-    } else {
-      alert('Alumni registered successfully!');
-      loadAlumni();  // Reload the directory
-    }
-  });
-</script>
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
@@ -187,7 +127,7 @@
 
     #company-logo {
       width: 100%;
-      max-width: 350px; /* Optimized for 1024x1024 image */
+      max-width: 350px;
       height: auto;
       opacity: 0;
       transform: rotateY(-45deg) scale(0.5);
@@ -206,7 +146,6 @@
       animation: projector-glow 4s infinite alternate;
     }
     
-    /* Scanner Line (FIXED & VISIBLE) */
     #animated-logo-container::after {
       content: '';
       position: absolute;
@@ -222,20 +161,9 @@
     }
 
     @keyframes holographic-reveal {
-      0% {
-        opacity: 0;
-        filter: blur(20px);
-        transform: rotateY(-45deg) scale(0.5) translateY(100px);
-      }
-      50% {
-        opacity: 0.8;
-        filter: blur(8px);
-      }
-      100% {
-        opacity: 1;
-        filter: blur(0);
-        transform: rotateY(0deg) scale(1) translateY(0);
-      }
+      0% { opacity: 0; filter: blur(20px); transform: rotateY(-45deg) scale(0.5) translateY(100px); }
+      50% { opacity: 0.8; filter: blur(8px); }
+      100% { opacity: 1; filter: blur(0); transform: rotateY(0deg) scale(1) translateY(0); }
     }
     
     @keyframes projector-glow {
@@ -287,16 +215,16 @@
 
   <section id="alumni" class="max-w-5xl mx-auto py-12 px-6 fade-in">
     <h3 class="text-2xl font-bold mb-6 border-b pb-2">Alumni Registration & Profiles</h3>
-    <form class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 rounded-xl shadow-lg">
-      <input type="text" placeholder="Full Name" class="p-3 border rounded" />
-      <input type="email" placeholder="Email (Mandatory)" class="p-3 border rounded" />
-      <input type="text" placeholder="Batch" class="p-3 border rounded" />
-      <input type="text" placeholder="Department" class="p-3 border rounded" />
-      <input type="text" placeholder="Current Job Title" class="p-3 border rounded" />
-      <input type="text" placeholder="Company" class="p-3 border rounded" />
-      <input type="text" placeholder="Skills" class="p-3 border rounded" />
+    <form id="alumni-form" class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 rounded-xl shadow-lg">
+      <input type="text" id="alumni-name" placeholder="Full Name" class="p-3 border rounded" />
+      <input type="email" id="alumni-email" placeholder="Email (Mandatory)" class="p-3 border rounded" />
+      <input type="text" id="alumni-batch" placeholder="Batch" class="p-3 border rounded" />
+      <input type="text" id="alumni-dept" placeholder="Department" class="p-3 border rounded" />
+      <input type="text" id="alumni-role" placeholder="Current Job Title" class="p-3 border rounded" />
+      <input type="text" id="alumni-company" placeholder="Company" class="p-3 border rounded" />
+      <input type="text" id="alumni-skills" placeholder="Skills" class="p-3 border rounded" />
       <input type="file" class="p-3 border rounded" accept="image/*" />
-      <textarea placeholder="Bio" class="p-3 border rounded col-span-2"></textarea>
+      <textarea id="alumni-bio" placeholder="Bio" class="p-3 border rounded col-span-2"></textarea>
       <button class="col-span-2 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">Register</button>
     </form>
   </section>
@@ -306,25 +234,7 @@
       <h3 class="text-2xl font-bold mb-6 border-b pb-2">Centralized Alumni Directory</h3>
       <input type="text" placeholder="Search alumni by name, batch, department..." class="w-full p-3 border rounded mb-6" />
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-white p-6 rounded-xl shadow-lg">
-          <img src="https://via.placeholder.com/100" alt="profile" class="w-20 h-20 rounded-full mb-3" />
-          <h4 class="text-lg font-semibold">Jane Doe</h4>
-          <p class="text-sm text-gray-500">Batch: 2015 | Dept: CSE</p>
-          <p class="text-sm mt-2">Software Engineer @ Google</p>
         </div>
-        <div class="bg-white p-6 rounded-xl shadow-lg">
-          <img src="https://via.placeholder.com/100" alt="profile" class="w-20 h-20 rounded-full mb-3" />
-          <h4 class="text-lg font-semibold">John Smith</h4>
-          <p class="text-sm text-gray-500">Batch: 2018 | Dept: ECE</p>
-          <p class="text-sm mt-2">Product Manager @ Microsoft</p>
-        </div>
-        <div class="bg-white p-6 rounded-xl shadow-lg">
-          <img src="https://via.placeholder.com/100" alt="profile" class="w-20 h-20 rounded-full mb-3" />
-          <h4 class="text-lg font-semibold">Alex Ray</h4>
-          <p class="text-sm text-gray-500">Batch: 2017 | Dept: ME</p>
-          <p class="text-sm mt-2">Lead Designer @ Tesla</p>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -354,16 +264,6 @@
           <p class="text-sm mt-2">Join your batchmates for a grand reunion in campus!</p>
           <button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">RSVP</button>
         </div>
-        <div class="bg-white p-6 rounded-xl shadow-lg">
-          <h4 class="text-xl font-semibold">Webinar: Careers in AI</h4>
-          <p class="text-sm mt-2">Learn from alumni in top tech firms about AI & ML opportunities.</p>
-          <button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">Join</button>
-        </div>
-        <div class="bg-white p-6 rounded-xl shadow-lg">
-          <h4 class="text-xl font-semibold">Networking Night</h4>
-          <p class="text-sm mt-2">An evening for alumni across industries to connect and collaborate.</p>
-          <button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">Register</button>
-        </div>
       </div>
     </div>
   </section>
@@ -375,11 +275,6 @@
         <h4 class="text-xl font-semibold">Become a Mentor</h4>
         <p class="mt-2 text-sm">Volunteer to guide students and junior alumni in their career paths.</p>
         <button class="mt-4 bg-green-600 text-white px-4 py-2 rounded">Sign Up</button>
-      </div>
-      <div class="bg-white p-6 rounded-xl shadow-lg">
-        <h4 class="text-xl font-semibold">Request Mentorship</h4>
-        <p class="mt-2 text-sm">Seek career guidance, resume reviews, and interview tips from senior alumni.</p>
-        <button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">Request</button>
       </div>
     </div>
   </section>
@@ -399,7 +294,72 @@
   </footer>
 
   <script>
-    // Dark Mode Toggle
+    // --- 1. SUPABASE CLIENT SETUP ---
+    const supabaseUrl = 'https://oriswzmkjvyesqlrpbya.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9yaXN3em1ranZ5ZXNxbHJwYnlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc5MzA4OTMsImV4cCI6MjA3MzUwNjg5M30.YH3JEbMDL0r8FvmQ-KJtrKCVmJo5RslUKq90FkICvAE';
+    const { createClient } = supabase;
+    const _supabase = createClient(supabaseUrl, supabaseKey);
+
+
+    // --- 2. LOAD ALUMNI DIRECTORY ---
+    async function loadAlumni() {
+      const { data, error } = await _supabase
+        .from('alumni')
+        .select('*');
+
+      if (error) {
+        console.error('Error loading alumni:', error);
+        return;
+      }
+
+      const container = document.querySelector('#directory .grid');
+      container.innerHTML = ''; // Clear existing content
+
+      data.forEach(alumni => {
+        container.innerHTML += `
+          <div class="bg-white p-6 rounded-xl shadow-lg">
+            <img src="https://via.placeholder.com/100" alt="profile" class="w-20 h-20 rounded-full mb-3" />
+            <h4 class="text-lg font-semibold">${alumni.name}</h4>
+            <p class="text-sm text-gray-500">Batch: ${alumni.batch || 'N/A'} | Dept: ${alumni.dept || 'N/A'}</p>
+            <p class="text-sm mt-2">${alumni.role || 'Role not specified'} @ ${alumni.company || 'Company not specified'}</p>
+          </div>
+        `;
+      });
+    }
+
+
+    // --- 3. HANDLE ALUMNI REGISTRATION ---
+    document.getElementById('alumni-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      // Reliably get data using IDs
+      const formData = {
+        name: document.getElementById('alumni-name').value,
+        email: document.getElementById('alumni-email').value,
+        batch: document.getElementById('alumni-batch').value,
+        dept: document.getElementById('alumni-dept').value,
+        role: document.getElementById('alumni-role').value,
+        company: document.getElementById('alumni-company').value,
+        skills: document.getElementById('alumni-skills').value,
+        bio: document.getElementById('alumni-bio').value,
+      };
+
+      const { data, error } = await _supabase
+        .from('alumni')
+        .insert([formData]);
+
+      if (error) {
+        console.error('Insert error:', error);
+        alert('Failed to register alumni. Please check the console for details.');
+      } else {
+        alert('Alumni registered successfully!');
+        document.getElementById('alumni-form').reset(); // Clear the form
+        loadAlumni(); // Reload the directory with the new entry
+      }
+    });
+
+
+    // --- 4. DARK MODE & SCROLL ANIMATION ---
     const toggle = document.getElementById('darkModeToggle');
     const body = document.body;
     toggle.addEventListener('click', () => {
@@ -407,7 +367,6 @@
       toggle.textContent = body.classList.contains('dark-mode') ? "☀️ Light Mode" : "🌙 Dark Mode";
     });
 
-    // Scroll Animation Observer
     const fadeElems = document.querySelectorAll('.fade-in');
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -416,8 +375,12 @@
         }
       });
     }, { threshold: 0.1 });
-
     fadeElems.forEach(el => observer.observe(el));
+
+
+    // --- 5. INITIALIZE PAGE ---
+    document.addEventListener('DOMContentLoaded', loadAlumni);
   </script>
+
 </body>
 </html>
