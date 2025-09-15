@@ -4,8 +4,69 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Alumni Connect Platform</title>
-
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+  const supabaseUrl = 'https://oriswzmkjvyesqlrpbya.supabase.co';  // Replace this
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9yaXN3em1ranZ5ZXNxbHJwYnlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc5MzA4OTMsImV4cCI6MjA3MzUwNjg5M30.YH3JEbMDL0r8FvmQ-KJtrKCVmJo5RslUKq90FkICvAE';                        // Replace this
+  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+</script>
+  <script>
+  async function loadAlumni() {
+    const { data, error } = await supabase
+      .from('alumni')              // Table name in Supabase
+      .select('*');                // Select all rows
+
+    if (error) {
+      console.error('Error loading alumni:', error);
+      return;
+    }
+
+    const container = document.querySelector('#directory .grid');
+    container.innerHTML = ''; // Clear existing placeholder cards
+
+    data.forEach(alumni => {
+      container.innerHTML += `
+        <div class="bg-white p-6 rounded-xl shadow-lg">
+          <img src="https://via.placeholder.com/100" alt="profile" class="w-20 h-20 rounded-full mb-3" />
+          <h4 class="text-lg font-semibold">${alumni.name}</h4>
+          <p class="text-sm text-gray-500">Batch: ${alumni.batch} | Dept: ${alumni.dept}</p>
+          <p class="text-sm mt-2">${alumni.role} @ ${alumni.company}</p>
+        </div>
+      `;
+    });
+  }
+
+  // Load alumni data on page load
+  document.addEventListener('DOMContentLoaded', loadAlumni);
+</script>
+  <script>
+  document.querySelector('#alumni form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const formData = {
+      name: e.target[0].value,
+      email: e.target[1].value,
+      batch: e.target[2].value,
+      dept: e.target[3].value,
+      role: e.target[4].value,
+      company: e.target[5].value,
+      location: e.target[6].value,
+    };
+
+    const { data, error } = await supabase
+      .from('alumni')
+      .insert([formData]);
+
+    if (error) {
+      console.error('Insert error:', error);
+      alert('Failed to register alumni.');
+    } else {
+      alert('Alumni registered successfully!');
+      loadAlumni();  // Reload the directory
+    }
+  });
+</script>
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
