@@ -11,31 +11,172 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
-    body { font-family: 'Inter', sans-serif; }
-    /* All Original CSS is preserved for a consistent look and feel */
-    body.dark-mode { background-color: #121212; color: #e0e0e0; }
-    body.dark-mode a { color: #9ad1ff; }
-    body.dark-mode .navbar { background-color: #1f1f1f !important; }
-    body.dark-mode input, body.dark-mode textarea, body.dark-mode .modal-content { background-color: #1f1f1f; color: #e0e0e0; border-color: #333; }
-    body.dark-mode .bg-white { background-color: #1f1f1f !important; }
-    body.dark-mode #home { background-color: #2d3748; }
-    body.dark-mode #home h2, body.dark-mode #home p { color: #e0e0e0; }
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Dark Mode Styles */
+    body.dark-mode {
+      background-color: #121212;
+      color: #e0e0e0;
+    }
+    body.dark-mode a {
+      color: #9ad1ff;
+    }
+    body.dark-mode .navbar {
+      background-color: #1f1f1f !important;
+    }
+    body.dark-mode input,
+    body.dark-mode textarea {
+      background-color: #1f1f1f;
+      color: #e0e0e0;
+      border-color: #333;
+    }
+    body.dark-mode .bg-white {
+      background-color: #1f1f1f !important;
+    }
+    
+    body.dark-mode #home {
+        background-color: #2d3748;
+    }
+    body.dark-mode #home h2, body.dark-mode #home p {
+        color: #e0e0e0;
+    }
+
+    /* Section Backgrounds for Dark Mode */
     body.dark-mode #directory { background-color: #1a1a1a; }
-    body.dark-mode #forum { background-color: #1a1a1a; }
     body.dark-mode #events { background-color: #222222; }
     body.dark-mode #donations { background-color: #1a1a1a; }
-    * { transition: all 0.3s ease; }
-    .shadow-lg:hover { transform: translateY(-5px); }
-    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
-    .fade-in.visible { opacity: 1; transform: translateY(0); }
-    input:focus, textarea:focus { outline: none; border-color: #4f46e5; box-shadow: 0 0 5px rgba(79, 70, 229, 0.5); }
-    #animated-logo-container { position: relative; perspective: 1500px; display: flex; justify-content: center; align-items: center; }
-    #company-logo { width: 100%; max-width: 350px; height: auto; opacity: 0; transform: rotateY(-45deg) scale(0.5); animation: holographic-reveal 3s forwards 0.5s; }
-    #animated-logo-container::before { content: ''; position: absolute; bottom: 40px; width: 400px; height: 80px; background: radial-gradient(ellipse at center, rgba(79, 70, 229, 0.4) 0%, rgba(79, 70, 229, 0) 70%); border-radius: 50%; transform: rotateX(80deg); animation: projector-glow 4s infinite alternate; }
-    #animated-logo-container::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: #93c5fd; border-radius: 2px; box-shadow: 0 0 10px #93c5fd, 0 0 20px white; animation: scan-lines 4s cubic-bezier(0.23, 1, 0.32, 1) infinite; animation-delay: 3.5s; }
-    @keyframes holographic-reveal { 0% { opacity: 0; filter: blur(20px); transform: rotateY(-45deg) scale(0.5) translateY(100px); } 50% { opacity: 0.8; filter: blur(8px); } 100% { opacity: 1; filter: blur(0); transform: rotateY(0deg) scale(1) translateY(0); } }
-    @keyframes projector-glow { from { opacity: 0.6; transform: rotateX(80deg) scale(0.9); } to { opacity: 1; transform: rotateX(80deg) scale(1.1); } }
-    @keyframes scan-lines { 0% { transform: translateY(0); opacity: 0; } 5% { opacity: 1; } 95% { opacity: 1; } 100% { transform: translateY(350px); opacity: 0; } }
+
+    /* Smooth Transitions Globally */
+    * {
+      transition: all 0.3s ease;
+    }
+
+    /* Card Hover Effect */
+    .shadow-lg:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+    body.dark-mode .shadow-lg:hover {
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Scroll animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Text Animations for headings */
+    h3 {
+      position: relative;
+      overflow: hidden;
+    }
+    h3::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 3px;
+      bottom: 0;
+      left: 0;
+      background-color: #4f46e5;
+      transition: width 0.5s ease;
+    }
+    h3:hover::after {
+      width: 100%;
+    }
+
+    /* Improved Input Focus */
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #4f46e5;
+      box-shadow: 0 0 5px rgba(79, 70, 229, 0.5);
+    }
+
+    /* --- ✨ FINALIZED FUTURISTIC ANIMATION ✨ --- */
+    #hero-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 85vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    @media (min-width: 768px) {
+      #hero-container { flex-direction: row; }
+    }
+
+    #hero-text-content { z-index: 10; }
+
+    #animated-logo-container {
+      position: relative;
+      perspective: 1500px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #company-logo {
+      width: 100%;
+      max-width: 350px;
+      height: auto;
+      opacity: 0;
+      transform: rotateY(-45deg) scale(0.5);
+      animation: holographic-reveal 3s forwards 0.5s;
+    }
+
+    #animated-logo-container::before {
+      content: '';
+      position: absolute;
+      bottom: 40px;
+      width: 400px;
+      height: 80px;
+      background: radial-gradient(ellipse at center, rgba(79, 70, 229, 0.4) 0%, rgba(79, 70, 229, 0) 70%);
+      border-radius: 50%;
+      transform: rotateX(80deg);
+      animation: projector-glow 4s infinite alternate;
+    }
+    
+    #animated-logo-container::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: #93c5fd;
+      border-radius: 2px;
+      box-shadow: 0 0 10px #93c5fd, 0 0 20px white;
+      animation: scan-lines 4s cubic-bezier(0.23, 1, 0.32, 1) infinite;
+      animation-delay: 3.5s;
+    }
+
+    @keyframes holographic-reveal {
+      0% { opacity: 0; filter: blur(20px); transform: rotateY(-45deg) scale(0.5) translateY(100px); }
+      50% { opacity: 0.8; filter: blur(8px); }
+      100% { opacity: 1; filter: blur(0); transform: rotateY(0deg) scale(1) translateY(0); }
+    }
+    
+    @keyframes projector-glow {
+      from { opacity: 0.6; transform: rotateX(80deg) scale(0.9); }
+      to { opacity: 1; transform: rotateX(80deg) scale(1.1); }
+    }
+    
+    @keyframes scan-lines {
+      0% { transform: translateY(0); opacity: 0; }
+      5% { opacity: 1; }
+      95% { opacity: 1; }
+      100% { transform: translateY(350px); opacity: 0; }
+    }
   </style>
 </head>
 
@@ -45,84 +186,84 @@
     <h1 class="text-2xl font-bold">Alumni Connect</h1>
     <div class="space-x-6 hidden md:flex">
       <a href="#home" class="hover:underline">Home</a>
-      <a href="#alumni" class="hover:underline">Register</a>
+      <a href="#alumni" class="hover:underline">Alumni</a>
       <a href="#directory" class="hover:underline">Directory</a>
-      <a href="#forum" class="hover:underline">Forum</a>
+      <a href="#networking" class="hover:underline">Networking</a>
       <a href="#events" class="hover:underline">Events</a>
       <a href="#mentorship" class="hover:underline">Mentorship</a>
       <a href="#donations" class="hover:underline">Donations</a>
     </div>
-    <div>
-        <div id="logged-out-view">
-            <button id="login-button" class="px-4 py-2 bg-gray-900 rounded-lg hover:bg-gray-700 text-sm">Login</button>
-        </div>
-        <div id="logged-in-view" class="hidden items-center flex">
-            <span id="user-email" class="mr-4 text-sm"></span>
-            <button id="logout-button" class="px-4 py-2 bg-red-600 rounded-lg hover:bg-red-700 text-sm">Logout</button>
-        </div>
-    </div>
+    <button id="darkModeToggle" class="px-4 py-2 bg-gray-900 rounded-lg hover:bg-gray-700 text-sm">
+      🌙 Dark Mode
+    </button>
   </nav>
 
   <section id="home" class="bg-gray-200 text-gray-800 fade-in">
-    <div id="hero-container" class="max-w-7xl mx-auto px-6 py-16">
-        <div id="hero-text-content" class="text-center md:text-left md:w-1/2 md:pr-12">
-            <h2 class="text-4xl lg:text-5xl font-bold mb-4">Stay Connected. Empower the Future.</h2>
-            <p class="text-lg mb-6">Centralized alumni management with networking, mentorship, events, and career support.</p>
-            <a href="#alumni" class="inline-block px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 transform hover:scale-105">Get Started</a>
-        </div>
-        <div id="animated-logo-container" class="w-full md:w-1/2 mt-12 md:mt-0">
-            <img src="assets/logo.jpeg" alt="Company Logo" id="company-logo" />
-        </div>
+    <div id="hero-container" class="max-w-7xl mx-auto px-6">
+      <div id="hero-text-content" class="text-center md:text-left md:w-1/2 md:pr-12">
+        <h2 class="text-4xl lg:text-5xl font-bold mb-4">Stay Connected. Empower the Future.</h2>
+        <p class="text-lg mb-6">Centralized alumni management with networking, mentorship, events, and career support.</p>
+        <a href="#alumni" class="inline-block px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 transform hover:scale-105">
+          Get Started
+        </a>
+      </div>
+      <div id="animated-logo-container" class="w-full md:w-1/2 mt-12 md:mt-0">
+        <img src="assets/logo.jpeg" alt="Company Logo" id="company-logo" />
+      </div>
     </div>
   </section>
 
   <section id="alumni" class="max-w-5xl mx-auto py-12 px-6 fade-in">
     <h3 class="text-2xl font-bold mb-6 border-b pb-2">Alumni Registration & Profiles</h3>
     <form id="alumni-form" class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 rounded-xl shadow-lg">
-        <input type="text" id="alumni-name" placeholder="Full Name" class="p-3 border rounded" required/>
-        <input type="email" id="alumni-email" placeholder="Email (Mandatory)" class="p-3 border rounded" required/>
-        <input type="text" id="alumni-batch" placeholder="Batch" class="p-3 border rounded" />
-        <input type="text" id="alumni-dept" placeholder="Department" class="p-3 border rounded" />
-        <input type="text" id="alumni-role" placeholder="Current Job Title" class="p-3 border rounded" />
-        <input type="text" id="alumni-company" placeholder="Company" class="p-3 border rounded" />
-        <button class="col-span-2 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">Register</button>
+      <input type="text" id="alumni-name" placeholder="Full Name" class="p-3 border rounded" />
+      <input type="email" id="alumni-email" placeholder="Email (Mandatory)" class="p-3 border rounded" />
+      <input type="text" id="alumni-batch" placeholder="Batch" class="p-3 border rounded" />
+      <input type="text" id="alumni-dept" placeholder="Department" class="p-3 border rounded" />
+      <input type="text" id="alumni-role" placeholder="Current Job Title" class="p-3 border rounded" />
+      <input type="text" id="alumni-company" placeholder="Company" class="p-3 border rounded" />
+      <input type="text" id="alumni-skills" placeholder="Skills" class="p-3 border rounded" />
+      <input type="file" class="p-3 border rounded" accept="image/*" />
+      <textarea id="alumni-bio" placeholder="Bio" class="p-3 border rounded col-span-2"></textarea>
+      <button class="col-span-2 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">Register</button>
     </form>
   </section>
 
   <section id="directory" class="bg-gray-100 py-12 px-6 fade-in">
     <div class="max-w-5xl mx-auto">
       <h3 class="text-2xl font-bold mb-6 border-b pb-2">Centralized Alumni Directory</h3>
-      <input type="text" id="alumni-search" placeholder="Search alumni by name, batch, or department..." class="w-full p-3 border rounded mb-6" />
-      <div id="directory-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <p class="col-span-3 text-center text-gray-500">Type in the search box to find alumni.</p>
-      </div>
-    </div>
-  </section>
-  
-  <section id="forum" class="py-12 px-6 fade-in">
-    <div class="max-w-5xl mx-auto">
-      <h3 class="text-2xl font-bold mb-6 border-b pb-2">Discussion Forum</h3>
-      <div class="bg-white p-6 rounded-xl shadow-lg">
-        <div id="messages-container" class="h-96 overflow-y-auto mb-4 p-4 border rounded-lg bg-gray-50 space-y-4">
-          <p class="text-gray-500 text-center">Login to see and send messages.</p>
+      <input type="text" placeholder="Search alumni by name, batch, department..." class="w-full p-3 border rounded mb-6" />
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         </div>
-        <form id="message-form" class="flex gap-4">
-          <input type="text" id="message-input" placeholder="Login to send a message..." class="flex-grow p-3 border rounded-lg" required disabled />
-          <button type="submit" class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 disabled:bg-gray-400" disabled>Send</button>
-        </form>
+    </div>
+  </section>
+
+  <section id="networking" class="max-w-5xl mx-auto py-12 px-6 fade-in">
+    <h3 class="text-2xl font-bold mb-6 border-b pb-2">Communication & Networking</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="bg-white p-6 rounded-xl shadow-lg">
+        <h4 class="font-semibold text-lg">Messaging System</h4>
+        <p class="text-sm mt-2">Send direct messages to alumni and students securely.</p>
+        <button class="mt-4 px-4 py-2 bg-blue-600 text-white rounded">Open Chat</button>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow-lg">
+        <h4 class="font-semibold text-lg">Discussion Forums</h4>
+        <p class="text-sm mt-2">Join batch-wise or industry-wise groups and discussions.</p>
+        <button class="mt-4 px-4 py-2 bg-green-600 text-white rounded">Browse Forums</button>
       </div>
     </div>
   </section>
-  
+
   <section id="events" class="bg-gray-100 py-12 px-6 fade-in">
     <div class="max-w-5xl mx-auto">
-      <h3 class="text-2xl font-bold mb-6 border-b pb-2">Events</h3>
+      <h3 class="text-2xl font-bold mb-6 border-b pb-2">Events & Networking</h3>
+      <button class="mb-6 bg-blue-600 text-white px-4 py-2 rounded">+ Create Event</button>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div class="bg-white p-6 rounded-xl shadow-lg">
-            <h4 class="text-xl font-semibold">Annual Reunion 2025</h4>
-            <p class="text-sm mt-2">Join your batchmates for a grand reunion in campus!</p>
-            <button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">RSVP</button>
-          </div>
+        <div class="bg-white p-6 rounded-xl shadow-lg">
+          <h4 class="text-xl font-semibold">Annual Reunion 2025</h4>
+          <p class="text-sm mt-2">Join your batchmates for a grand reunion in campus!</p>
+          <button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">RSVP</button>
+        </div>
       </div>
     </div>
   </section>
@@ -130,11 +271,11 @@
   <section id="mentorship" class="max-w-5xl mx-auto py-12 px-6 fade-in">
     <h3 class="text-2xl font-bold mb-6 border-b pb-2">Mentorship & Career Support</h3>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="bg-white p-6 rounded-xl shadow-lg">
-          <h4 class="text-xl font-semibold">Become a Mentor</h4>
-          <p class="mt-2 text-sm">Volunteer to guide students and junior alumni in their career paths.</p>
-          <button class="mt-4 bg-green-600 text-white px-4 py-2 rounded">Sign Up</button>
-        </div>
+      <div class="bg-white p-6 rounded-xl shadow-lg">
+        <h4 class="text-xl font-semibold">Become a Mentor</h4>
+        <p class="mt-2 text-sm">Volunteer to guide students and junior alumni in their career paths.</p>
+        <button class="mt-4 bg-green-600 text-white px-4 py-2 rounded">Sign Up</button>
+      </div>
     </div>
   </section>
 
@@ -142,142 +283,104 @@
     <div class="max-w-5xl mx-auto">
       <h3 class="text-2xl font-bold mb-6 border-b pb-2">Fundraising & Donations</h3>
       <div class="bg-white p-6 rounded-xl shadow-lg">
-        <p class="text-sm">Support your alma mater’s growth.</p>
+        <p class="text-sm">Support your alma mater’s growth. Transparent reports of all contributions.</p>
         <button class="mt-4 bg-purple-600 text-white px-6 py-2 rounded-lg">Donate Now</button>
       </div>
     </div>
   </section>
-
-  <div id="auth-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
-    <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md modal-content">
-      <form id="login-form">
-        <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
-        <input type="email" id="login-email" placeholder="Email" class="w-full p-3 mb-4 border rounded" required />
-        <input type="password" id="login-password" placeholder="Password" class="w-full p-3 mb-4 border rounded" required />
-        <button type="submit" class="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Login</button>
-        <p class="text-center text-sm mt-4">Don't have an account? <a href="#" id="show-signup" class="text-blue-600 hover:underline">Sign up</a></p>
-      </form>
-      <form id="signup-form" class="hidden">
-        <h2 class="text-2xl font-bold mb-6 text-center">Sign Up</h2>
-        <input type="email" id="signup-email" placeholder="Email" class="w-full p-3 mb-4 border rounded" required />
-        <input type="password" id="signup-password" placeholder="Password" class="w-full p-3 mb-4 border rounded" required />
-        <button type="submit" class="w-full py-3 bg-green-600 text-white rounded-lg hover:bg-green-700">Sign Up</button>
-        <p class="text-center text-sm mt-4">Already have an account? <a href="#" id="show-login" class="text-blue-600 hover:underline">Login</a></p>
-      </form>
-    </div>
-  </div>
 
   <footer class="text-center py-6 bg-blue-600 text-white fade-in">
     <p>&copy; 2025 Alumni Connect | Built with ❤️ for SIH</p>
   </footer>
 
   <script>
-    // --- 1. SUPABASE CLIENT ---
+    // --- 1. SUPABASE CLIENT SETUP ---
     const supabaseUrl = 'https://oriswzmkjvyesqlrpbya.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9yaXN3em1ranZ5ZXNxbHJwYnlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc5MzA4OTMsImV4cCI6MjA3MzUwNjg5M30.YH3JEbMDL0r8FvmQ-KJtrKCVmJo5RslUKq90FkICvAE';
     const { createClient } = supabase;
     const _supabase = createClient(supabaseUrl, supabaseKey);
 
-    // --- 2. UI SELECTORS ---
-    const loggedOutView = document.getElementById('logged-out-view');
-    const loggedInView = document.getElementById('logged-in-view');
-    const userEmailEl = document.getElementById('user-email');
-    const logoutButton = document.getElementById('logout-button');
-    const loginButton = document.getElementById('login-button');
-    const authModal = document.getElementById('auth-modal');
-    const loginForm = document.getElementById('login-form');
-    const signupForm = document.getElementById('signup-form');
-    const showSignup = document.getElementById('show-signup');
-    const showLogin = document.getElementById('show-login');
-    const messageInput = document.getElementById('message-input');
-    const messageSendButton = document.querySelector('#message-form button');
-    const darkModeToggle = document.getElementById('darkModeToggle');
 
-    // --- 3. AUTH MODAL & LOGIN/LOGOUT LOGIC ---
-    loginButton.addEventListener('click', () => authModal.classList.remove('hidden'));
-    authModal.addEventListener('click', (e) => { if (e.target === authModal) { authModal.classList.add('hidden'); } });
-    showSignup.addEventListener('click', (e) => { e.preventDefault(); loginForm.classList.add('hidden'); signupForm.classList.remove('hidden'); });
-    showLogin.addEventListener('click', (e) => { e.preventDefault(); signupForm.classList.add('hidden'); loginForm.classList.remove('hidden'); });
+    // --- 2. LOAD ALUMNI DIRECTORY ---
+    async function loadAlumni() {
+      const { data, error } = await _supabase
+        .from('alumni')
+        .select('*');
 
-    signupForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const { error } = await _supabase.auth.signUp({ email: document.getElementById('signup-email').value, password: document.getElementById('signup-password').value });
-      if (error) { alert('Error: ' + error.message); }
-      else { alert('Signup successful! Please check your email to confirm your account.'); showLogin.click(); }
-    });
-
-    loginForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const { error } = await _supabase.auth.signInWithPassword({ email: document.getElementById('login-email').value, password: document.getElementById('login-password').value });
-      if (error) { alert('Error: ' + error.message); }
-    });
-
-    logoutButton.addEventListener('click', async () => await _supabase.auth.signOut());
-
-    // --- 4. SESSION MANAGEMENT & UI UPDATES ---
-    _supabase.auth.onAuthStateChange((event, session) => {
-      if (session && session.user) {
-        loggedInView.classList.remove('hidden');
-        loggedOutView.classList.add('hidden');
-        userEmailEl.textContent = session.user.email;
-        authModal.classList.add('hidden');
-        messageInput.disabled = false;
-        messageSendButton.disabled = false;
-        messageInput.placeholder = "Type your message...";
-      } else {
-        loggedOutView.classList.remove('hidden');
-        loggedInView.classList.add('hidden');
-        userEmailEl.textContent = '';
-        messageInput.disabled = true;
-        messageSendButton.disabled = true;
-        messageInput.placeholder = "Login to send a message...";
+      if (error) {
+        console.error('Error loading alumni:', error);
+        return;
       }
-    });
 
-    // --- 5. ALUMNI REGISTRATION ---
-    document.getElementById('alumni-form').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const formData = {
-        Name: document.getElementById('alumni-name').value, Email: document.getElementById('alumni-email').value,
-        Batch: document.getElementById('alumni-batch').value, Department: document.getElementById('alumni-dept').value,
-        Role: document.getElementById('alumni-role').value, Company: document.getElementById('alumni-company').value
-      };
-      const { error } = await _supabase.from('alumni').insert([formData]);
-      if (error) { alert('Failed to register alumni. Check permissions.'); console.error(error); }
-      else { alert('Alumni registered successfully!'); this.reset(); }
-    });
+      const container = document.querySelector('#directory .grid');
+      container.innerHTML = ''; // Clear existing content
 
-    // --- 6. ALUMNI DIRECTORY (BACKEND SEARCH) ---
-    function renderAlumni(alumniList) {
-      const container = document.getElementById('directory-grid');
-      container.innerHTML = '';
-      if (alumniList.length === 0) { container.innerHTML = `<p class="col-span-3 text-center text-gray-500">No alumni found.</p>`; return; }
-      alumniList.forEach(alumni => {
-        container.innerHTML += `<div class="bg-white p-6 rounded-xl shadow-lg"><img src="https://via.placeholder.com/100" alt="profile" class="w-20 h-20 rounded-full mb-3" /><h4 class="text-lg font-semibold">${alumni.Name}</h4><p class="text-sm text-gray-500">Batch: ${alumni.Batch || 'N/A'} | Dept: ${alumni.Department || 'N/A'}</p><p class="text-sm mt-2">${alumni.Role || 'N/A'} @ ${alumni.Company || 'N/A'}</p></div>`;
+      data.forEach(alumni => {
+        container.innerHTML += `
+          <div class="bg-white p-6 rounded-xl shadow-lg">
+            <img src="https://via.placeholder.com/100" alt="profile" class="w-20 h-20 rounded-full mb-3" />
+            <h4 class="text-lg font-semibold">${alumni.name}</h4>
+            <p class="text-sm text-gray-500">Batch: ${alumni.batch || 'N/A'} | Dept: ${alumni.dept || 'N/A'}</p>
+            <p class="text-sm mt-2">${alumni.role || 'Role not specified'} @ ${alumni.company || 'Company not specified'}</p>
+          </div>
+        `;
       });
     }
 
-    async function searchAlumni(searchTerm) {
-      if (!searchTerm) { document.getElementById('directory-grid').innerHTML = `<p class="col-span-3 text-center text-gray-500">Type in the search box to find alumni.</p>`; return; }
-      const { data, error } = await _supabase.from('alumni').select('*').or(`Name.ilike.%${searchTerm}%,Batch.ilike.%${searchTerm}%,Department.ilike.%${searchTerm}%`);
-      if (error) { console.error('Search error:', error); return; }
-      renderAlumni(data);
-    }
-    
-    function debounce(func, delay) { let timeout; return function(...args) { clearTimeout(timeout); timeout = setTimeout(() => func.apply(this, args), delay); }; }
-    document.getElementById('alumni-search').addEventListener('input', debounce((e) => { searchAlumni(e.target.value.trim()); }, 300));
 
-    // --- 7. DARK MODE & SCROLL ANIMATIONS ---
-    darkModeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
-        darkModeToggle.textContent = document.body.classList.contains('dark-mode') ? "☀️ Light Mode" : "🌙 Dark Mode";
+    // --- 3. HANDLE ALUMNI REGISTRATION ---
+    document.getElementById('alumni-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      // Reliably get data using IDs
+      const formData = {
+        name: document.getElementById('alumni-name').value,
+        email: document.getElementById('alumni-email').value,
+        batch: document.getElementById('alumni-batch').value,
+        dept: document.getElementById('alumni-dept').value,
+        role: document.getElementById('alumni-role').value,
+        company: document.getElementById('alumni-company').value,
+        skills: document.getElementById('alumni-skills').value,
+        bio: document.getElementById('alumni-bio').value,
+      };
+
+      const { data, error } = await _supabase
+        .from('alumni')
+        .insert([formData]);
+
+      if (error) {
+        console.error('Insert error:', error);
+        alert('Failed to register alumni. Please check the console for details.');
+      } else {
+        alert('Alumni registered successfully!');
+        document.getElementById('alumni-form').reset(); // Clear the form
+        loadAlumni(); // Reload the directory with the new entry
+      }
+    });
+
+
+    // --- 4. DARK MODE & SCROLL ANIMATION ---
+    const toggle = document.getElementById('darkModeToggle');
+    const body = document.body;
+    toggle.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      toggle.textContent = body.classList.contains('dark-mode') ? "☀️ Light Mode" : "🌙 Dark Mode";
     });
 
     const fadeElems = document.querySelectorAll('.fade-in');
     const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); } });
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
     }, { threshold: 0.1 });
     fadeElems.forEach(el => observer.observe(el));
+
+
+    // --- 5. INITIALIZE PAGE ---
+    document.addEventListener('DOMContentLoaded', loadAlumni);
   </script>
+
 </body>
 </html>
